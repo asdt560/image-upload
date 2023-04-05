@@ -5,12 +5,14 @@ const Main = () => {
 
   useEffect(() => {
     fetch("http://localhost:8000/mainimage")
-      .then((res) => res.json())
-      .then((data) => setImage(data.message));
+      .then((res) => setImage(res.url))
   }, []);
 
   return (
-    <h1>Hello World</h1>
+    <main>
+      <h1>Hello World</h1>
+      <img src={image} alt="placeholder" />
+    </main>
   )
 }
 

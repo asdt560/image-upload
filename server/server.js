@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs')
 
 const app = express();
 app.use(cors());
@@ -7,12 +8,12 @@ app.use(express.json());
 
 const port = 8000
 
-app.get('/', (req, res) => {
+app.get('/mainimage', (req, res) => {
   const options = {
     root: __dirname
   }
 
-  res.sendFile('./images/testimg/foto.jpg')
+  res.sendFile('./images/testimg/foto.jpg', options)
 })
 
 app.listen(port, () => {
