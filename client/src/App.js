@@ -9,10 +9,12 @@ import AddCategory from "./pages/AddCategory";
 import Upload from "./pages/Upload"
 import './App.css';
 import Search from "./pages/Search";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <div className="App">
+      <Navbar />
       <Router>
         <Routes>
           <Route path="/" element={<Main />} />
