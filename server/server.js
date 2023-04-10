@@ -75,7 +75,7 @@ app.post("/api/v1/categories", async (req, res) => {
 
 app.get("/api/v1/categories", async (req, res) => {
   try {
-    const arr = fs.readdir('./images')
+    const arr = fs.readdirSync('./images').filter((word) => word != '.gitignore')
     res.send({
       status: "success",
       message: "Category created",
