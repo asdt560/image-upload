@@ -23,8 +23,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.post("/api/v1/images", async (req, res) => {
   try {
-    console.log(req.files)
-    console.log(req.body)
     if (!req.files) {
       res.send({
         status: "failed",
@@ -55,7 +53,6 @@ app.post("/api/v1/categories", async (req, res) => {
   try {
     let folder = req.body.category
     if (!fs.existsSync(`./images/${folder}`)) {
-      console.log(path.join(__dirname, `/images/${folder}`))
       fs.mkdirSync(path.join(__dirname, `/images/${folder}`))
       res.send({
         status: "success",

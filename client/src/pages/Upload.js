@@ -15,9 +15,7 @@ const Upload = () => {
   const onSubmit = async (data) => {
     const formData = new FormData();
         formData.append("file", data.file[0]);
-        console.log(data)
         formData.append("category", data.category)
-        console.log(formData)
         const res = await dispatch(addImage(formData))
         /*const res = await fetch("http://localhost:5000/upload-file", {
             method: "POST",
