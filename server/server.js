@@ -21,8 +21,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.post("/upload-file", async (req, res) => {
+app.post("/api/v1/images", async (req, res) => {
   try {
+    console.log(req.files)
+    console.log(req.body)
     if (!req.files) {
       res.send({
         status: "failed",
