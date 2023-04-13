@@ -5,6 +5,7 @@ const Navbar = () => {
     <nav>
       <NavLink to="/">Main</NavLink>
       <NavLink to="/upload">Add Image</NavLink>
+      <NavLink to="/add_category">Add Category</NavLink>
     </nav>
   )
 }
