@@ -21,6 +21,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(express.static('images/public'));
+
 app.post("/api/v1/images", async (req, res) => {
   try {
     if (!req.files) {
