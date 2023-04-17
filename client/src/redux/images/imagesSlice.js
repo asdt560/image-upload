@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-/*
-const getImages = createAsyncThunk('images/getImage', async () => {
+
+/*const getImages = createAsyncThunk('images/getImage', async () => {
   const resp = await fetch('http://localhost:5000/api/v1/images')
     .then((resp) => resp.json())
-    .then((result) => result.data.images);
+    .then((result) => result.data.image);
   return resp;
-});
-*/
+});*/
+
 const addImage = createAsyncThunk('images/addImage', async (obj) => {
   const response = await fetch('http://localhost:5000/api/v1/images', {
     method: 'POST',
@@ -29,7 +29,7 @@ const imagesSlice = createSlice({
     builder.addCase(getImages.fulfilled, (state, action) => ({
       ...state,
       loading: false,
-      images: action.payload,
+      image: action.payload,
     }));
     builder.addCase(getImages.rejected, (state, action) => ({
       ...state,

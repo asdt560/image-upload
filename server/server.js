@@ -21,7 +21,34 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static('images/public'));
+const mime = {
+  html: 'text/html',
+  txt: 'text/plain',
+  css: 'text/css',
+  gif: 'image/gif',
+  jpg: 'image/jpeg',
+  png: 'image/png',
+  svg: 'image/svg+xml',
+  js: 'application/javascript'
+};
+
+app.get("/api/v1/random-image", async (req, res) => {
+  try {
+    const arr = fs.readdirSync('./images').filter((word) => word != '.gitignore')
+    const sample = `./images/${arr[Math.floor(Math.random()*arr.length)]}`;
+    const files = fs.readdirSync(sample)
+    const file = `${sample}/${files[Math.floor(Math.random()*files.length)]}`
+    const type = mime[path.extname(file).slice(1)] || 'text/plain';
+    const imageData = fs.readFileSync(file, { encoding: 'base64' });
+    res.send({
+        header: 'Content-Type', type,
+        status: "success",
+        body: imageData,
+      });
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 
 app.post("/api/v1/images", async (req, res) => {
   try {
