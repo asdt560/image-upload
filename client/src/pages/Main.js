@@ -20,7 +20,6 @@ const Main = () => {
       <img
           src={`data:image/jpeg;base64,${data}`}
           alt=""
-          width="300"
       />
     </main>
   )
