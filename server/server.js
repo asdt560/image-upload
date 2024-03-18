@@ -9,6 +9,17 @@ const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 
+const { Client } = require('pg');
+
+const client = new Client({
+  user: 'username',
+  password: 'password',
+  host: 'host',
+  port: 'port_number',
+  database: 'database_name',
+});
+
+
 const app = express();
 
 app.use(
