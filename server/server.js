@@ -22,14 +22,7 @@ const client = new pg.Client({
 
 const app = express();
 
-client.connect()
-  .then(() => {
-    console.log('Connected to PostgreSQL database');
-  })
-  .catch((err) => {
-    console.error('Error connecting to PostgreSQL database', err);
-  });
-
+app.use(cors());
 
 app.use(
   fileupload({
@@ -37,9 +30,32 @@ app.use(
   }),
 );
 
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+const createTable = `
+  CREATE TABLE IF NOT EXISTS images(
+    id serial PRIMARY KEY,
+    category text,
+    filepath text
+  );
+`;
+
+client.connect()
+  .then(() => {
+    console.log('Connected to PostgreSQL database');
+    client.query(createTable, (err, result) => {
+      if (err) {
+        console.error('Error creating table', err);
+      } else {
+        console.log('Table created successfully', result);
+      }
+    });
+  })
+  .catch((err) => {
+    console.error('Error connecting to PostgreSQL database', err);
+  });
+
 
 const mime = {
   html: 'text/html',
@@ -70,6 +86,7 @@ app.get("/api/v1/random-image", async (req, res) => {
   }
 });
 
+
 app.post("/api/v1/images", async (req, res) => {
   try {
     if (!req.files) {
@@ -80,9 +97,21 @@ app.post("/api/v1/images", async (req, res) => {
     } else {
       let file = req.files.file;
       let folder = req.body.category
+      let path = `./images/${folder}/${file.name}`
+      
+      file.mv(path);
 
-      file.mv(`./images/${folder}/${file.name}`);
-
+      const insertItem = `
+        INSERT INTO images (category, filepath)
+        VALUES ('${folder}', '${path}')
+      `
+      client.query(insertItem, (err, result) => {
+        if (err) {
+          console.error('Error inserting', err);
+        } else {
+          console.log('Entry created successfully', result);
+        }
+      })
       res.send({
         status: "success",
         message: "File is uploaded",
@@ -137,6 +166,6 @@ app.get("/api/v1/categories", async (req, res) => {
   }
 });
 
-const port = process.env.PORT || 5000;
+const port = 5000;
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
