@@ -70,17 +70,22 @@ const mime = {
 
 app.get("/api/v1/random-image", async (req, res) => {
   try {
-    const arr = fs.readdirSync('./images').filter((word) => word != '.gitignore')
-    const sample = `./images/${arr[Math.floor(Math.random()*arr.length)]}`;
-    const files = fs.readdirSync(sample)
-    const file = `${sample}/${files[Math.floor(Math.random()*files.length)]}`
-    const type = mime[path.extname(file).slice(1)] || 'text/plain';
-    const imageData = fs.readFileSync(file, { encoding: 'base64' });
-    res.send({
-        header: 'Content-Type', type,
-        status: "success",
-        body: imageData,
-      });
+    const randomImage = `SELECT * FROM images ORDER BY RANDOM() LIMIT 1`
+    client.query(randomImage, (error, result) => {
+      if(error) {
+        console.error(error)
+      } else {
+        console.log(result)
+        let file = result.rows[0].filepath
+        const type = mime[path.extname(file).slice(1)] || 'text/plain';
+        const imageData = fs.readFileSync(file, { encoding: 'base64' });
+          res.send({
+          header: 'Content-Type', type,
+          status: "success",
+          body: imageData,
+        });
+      }
+    })
   } catch (err) {
     res.status(500).send(err);
   }
