@@ -33,7 +33,14 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const createTable = `
+const createCategoriesTable =`
+  CREATE TABLE IF NOT EXISTS categories(
+    id serial PRIMARY KEY,
+    categoryName int
+  )
+`
+
+const createImagesTable = `
   CREATE TABLE IF NOT EXISTS images(
     id serial PRIMARY KEY,
     category text,
@@ -44,7 +51,7 @@ const createTable = `
 client.connect()
   .then(() => {
     console.log('Connected to PostgreSQL database');
-    client.query(createTable, (err, result) => {
+    client.query(createImagesTable, (err, result) => {
       if (err) {
         console.error('Error creating table', err);
       } else {
