@@ -36,7 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 const createCategoriesTable =`
   CREATE TABLE IF NOT EXISTS categories(
     id serial PRIMARY KEY,
-    categoryName int
+    categoryName text
   )
 `
 
@@ -51,11 +51,18 @@ const createImagesTable = `
 client.connect()
   .then(() => {
     console.log('Connected to PostgreSQL database');
+    client.query(createCategoriesTable, (err, result) => {
+      if (err) {
+        console.error('Error creating table', err);
+      } else {
+        console.log('Table created successfully');
+      }
+    });
     client.query(createImagesTable, (err, result) => {
       if (err) {
         console.error('Error creating table', err);
       } else {
-        console.log('Table created successfully', result);
+        console.log('Table created successfully');
       }
     });
   })
@@ -107,6 +114,7 @@ app.post("/api/v1/images", async (req, res) => {
         message: "No file uploaded",
       });
     } else {
+      console.log(req.body)
       let file = req.files.file;
       let folder = req.body.category
       let path = `./images/${folder}/${file.name}`
@@ -115,24 +123,24 @@ app.post("/api/v1/images", async (req, res) => {
 
       const insertItem = `
         INSERT INTO images (category, filepath)
-        VALUES ('${folder}', '${path}')
+        VALUES (${folder}, '${path}')
       `
       client.query(insertItem, (err, result) => {
         if (err) {
           console.error('Error inserting', err);
         } else {
           console.log('Entry created successfully', result);
+          res.send({
+            status: "success",
+            message: "File is uploaded",
+            data: {
+              name: file.name,
+              mimetype: file.mimetype,
+              size: file.size,
+            },
+          });
         }
       })
-      res.send({
-        status: "success",
-        message: "File is uploaded",
-        data: {
-          name: file.name,
-          mimetype: file.mimetype,
-          size: file.size,
-        },
-      });
     }
   } catch (err) {
     res.status(500).send(err);
@@ -143,14 +151,24 @@ app.post("/api/v1/categories", async (req, res) => {
   try {
     let folder = req.body.category
     if (!fs.existsSync(`./images/${folder}`)) {
-      fs.mkdirSync(path.join(__dirname, `/images/${folder}`))
-      res.send({
-        status: "success",
-        message: "Category created",
-        data: {
-          name: folder
-        },
-      });
+      const insertCategory = `
+        INSERT INTO categories (categoryName)
+        VALUES ('${folder}')
+      `
+      client.query(insertCategory, (err, result) => {
+        if (err) {
+          console.error('Error inserting', err);
+        } else {
+          console.log('Entry created successfully', result);
+          res.send({
+            status: "success",
+            message: "Category created",
+            data: {
+              name: folder
+            },
+          });
+        }
+      })
     } else {
       res.send({
         status: "failed",
@@ -164,15 +182,20 @@ app.post("/api/v1/categories", async (req, res) => {
 
 app.get("/api/v1/categories", async (req, res) => {
   try {
-    const arr = fs.readdirSync('./images').filter((word) => word != '.gitignore')
-    res.send({
-      status: "success",
-      message: "Category created",
-      data: {
-        categories: arr 
-      },
-    });
-
+    const allCategories = `SELECT * FROM categories`
+    client.query(allCategories, (err, result) => {
+      if (err) {
+        console.log('Error', err)
+      } else {
+        res.send({
+          status: "success",
+          message: "Categories sent",
+          data: {
+            categories: result.rows
+          },
+        });
+      }
+    })
   } catch (err) {
     res.status(500).send(err);
   }
