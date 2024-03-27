@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <nav>
+    <nav className="flex justify-between">
       <NavLink to="/">Main</NavLink>
       <NavLink to="/categories">Categories</NavLink>
       <NavLink to="/upload">Add Image</NavLink>

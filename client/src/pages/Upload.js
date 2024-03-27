@@ -14,6 +14,7 @@ const Upload = () => {
 
   const onSubmit = async (data) => {
     const formData = new FormData();
+    console.log(data)
         formData.append("file", data.file[0]);
         formData.append("category", data.category)
         const res = await dispatch(addImage(formData))
@@ -32,9 +33,9 @@ const Upload = () => {
             <option value="none">
               Select a Category
             </option>
-          {categories.map((category, index) => (
-            <option key={index} value={category}>
-              {category}
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.categoryname}
             </option>
           ))}
         </select>

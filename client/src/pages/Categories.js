@@ -9,7 +9,6 @@ const Categories = () => {
   const getCategoryArray = async () => {
     const categoryArray = await dispatch(getCategories())
     setCategories(categoryArray.payload)
-    console.log(categories)
   }
 
   useEffect(() => {
@@ -21,7 +20,7 @@ const Categories = () => {
       <h1>Look at images per category</h1>
       <div>
         {categories.map((category) => (
-          <p>{category}</p>
+          <p key={category.id}>{category.categoryname}</p>
         ))}
       </div>
     </main>
