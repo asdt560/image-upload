@@ -43,7 +43,7 @@ const createCategoriesTable =`
 const createImagesTable = `
   CREATE TABLE IF NOT EXISTS images(
     id serial PRIMARY KEY,
-    category text,
+    category int references categories(id),
     filepath text
   );
 `;
