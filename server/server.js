@@ -82,29 +82,31 @@ const mime = {
   js: 'application/javascript'
 };
 
-app.get("/api/v1/random-image", async (req, res) => {
+app.get("/api/v1/images", async (req, res) => {
+  let params = req.query;
   try {
-    const randomImage = `SELECT * FROM images ORDER BY RANDOM() LIMIT 1`
-    client.query(randomImage, (error, result) => {
-      if(error) {
-        console.error(error)
-      } else {
-        console.log(result)
-        let file = result.rows[0].filepath
-        const type = mime[path.extname(file).slice(1)] || 'text/plain';
-        const imageData = fs.readFileSync(file, { encoding: 'base64' });
+    if(params.random) {
+      const randomImage = `SELECT * FROM images ORDER BY RANDOM() LIMIT 1`
+      client.query(randomImage, (error, result) => {
+        if(error) {
+          console.error(error)
+        } else {
+          console.log(result)
+          let file = result.rows[0].filepath
+          const type = mime[path.extname(file).slice(1)] || 'text/plain';
+          const imageData = fs.readFileSync(file, { encoding: 'base64' });
           res.send({
-          header: 'Content-Type', type,
-          status: "success",
-          body: imageData,
-        });
-      }
-    })
-  } catch (err) {
-    res.status(500).send(err);
+            header: 'Content-Type', type,
+            status: "success",
+            body: imageData,
+          });
+        }
+      })
+    }
+  } catch(err) {
+    res.status(500).send(err)
   }
-});
-
+})
 
 app.post("/api/v1/images", async (req, res) => {
   try {

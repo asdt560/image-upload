@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-/*const getImages = createAsyncThunk('images/getImage', async () => {
-  const resp = await fetch('http://localhost:5000/api/v1/images')
+const getImages = createAsyncThunk('images/getImage', async (params) => {
+  const resp = await fetch(`http://localhost:5000/api/v1/images?${params}`)
     .then((resp) => resp.json())
-    .then((result) => result.data.image);
+    .then((result) => result);
   return resp;
-});*/
+});
 
 const addImage = createAsyncThunk('images/addImage', async (obj) => {
   const response = await fetch('http://localhost:5000/api/v1/images', {
@@ -22,7 +22,7 @@ const imagesSlice = createSlice({
     images: [],
   },
   extraReducers: (builder) => {
-    /*builder.addCase(getImages.pending, (state) => ({
+    builder.addCase(getImages.pending, (state) => ({
       ...state,
       loading: true,
     }));
@@ -36,7 +36,7 @@ const imagesSlice = createSlice({
       loading: false,
       images: [],
       error: action.error.message,
-    }));*/
+    }));
     builder.addCase(addImage.pending, (state) => ({
       ...state,
       loading: true,
@@ -54,4 +54,4 @@ const imagesSlice = createSlice({
 });
 
 export default imagesSlice.reducer;
-export { addImage };
+export { addImage, getImages };
