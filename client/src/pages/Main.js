@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react'
-
+import { useDispatch } from 'react-redux';
+import { getImages } from '../redux/images/imagesSlice';
 const Main = () => {
-  const [data, setData] = useState('');
+  const [image, setImage] = useState('');
 
-  const fetchRandomImage = async () => {
-    const res = (await fetch('http://localhost:5000/api/v1/random-image')
-      .then((res) => res.json())
-    );
-    console.log(res)
-    setData(res.body);
-  };
+  const dispatch = useDispatch();
+
+  const getRandomImage = async () => {
+    const randomImage = await dispatch(getImages('random=true'))
+    console.log(randomImage)
+    setImage(randomImage.payload.body)
+  }
+
   useEffect(() => {
-    fetchRandomImage();
+    getRandomImage()
   }, [])
 
   return (
     <main>
       <h1>See images here</h1>
       <img
-          src={`data:image/jpeg;base64,${data}`}
+          src={`data:image/jpeg;base64,${image}`}
           alt=""
       />
     </main>

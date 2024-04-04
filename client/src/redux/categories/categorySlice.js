@@ -3,7 +3,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 const getCategories = createAsyncThunk('categories/getCategory', async () => {
   const resp = await fetch('http://localhost:5000/api/v1/categories')
     .then((resp) => resp.json())
-    .then((result) => result.data.categories);
+    .then((result) => result)
+  console.log(resp)
   return resp;
 });
 

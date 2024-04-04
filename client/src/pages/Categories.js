@@ -8,12 +8,12 @@ const Categories = () => {
 
   const getCategoryArray = async () => {
     const categoryArray = await dispatch(getCategories())
-    setCategories(categoryArray.payload)
+    setCategories(categoryArray.payload.data.categories)
   }
 
   useEffect(() => {
     getCategoryArray()
-  })
+  }, [])
 
   return (
     <main>
