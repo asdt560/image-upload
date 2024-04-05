@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <nav className="flex justify-between bg-gray-900">
+    <nav className="flex border-b-4 border-white justify-between bg-gray-900">
       <NavLink 
         className="py-2 px-8 pointer font-bold text-lg text-white font-sans hover:bg-white hover:text-gray-900" 
         to="/"

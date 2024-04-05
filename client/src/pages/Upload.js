@@ -26,8 +26,8 @@ const Upload = () => {
   }
 
   return (
-    <main>
-      <h1>Upload image to server</h1>
+    <main className='flex flex-col items-center gap-8'>
+      <h1 className='text-2xl text-white font-bold'>Upload image to server</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <select placeholder="Category" {...register("category")} required defaultValue="none">
             <option value="none">

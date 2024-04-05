@@ -17,8 +17,8 @@ const Main = () => {
   }, [])
 
   return (
-    <main>
-      <h1>See images here</h1>
+    <main className='flex flex-col items-center gap-8'>
+      <h1 className='text-2xl text-white font-bold'>See images here</h1>
       <img
           src={`data:image/jpeg;base64,${image}`}
           alt=""
