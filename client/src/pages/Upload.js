@@ -1,15 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from "../redux/categories/categorySlice";
 import { useForm } from "react-hook-form";
 import { addImage } from "../redux/images/imagesSlice";
 const Upload = () => {
+  const [categories, setCategories] = useState([])
   const { register, handleSubmit } = useForm();
-  const categories = useSelector((state) => state.categoryReducer.categories)
   const dispatch = useDispatch()
 
+  const getCategoryArray = async () => {
+    const categoryArray = await dispatch(getCategories())
+    setCategories(categoryArray.payload.data.categories)
+  }
+
   useEffect(() => {
-    dispatch(getCategories())
+    getCategoryArray()
   }, [])
 
   const onSubmit = async (data) => {
@@ -28,8 +33,8 @@ const Upload = () => {
   return (
     <main className='flex flex-col items-center gap-8'>
       <h1 className='text-2xl text-white font-bold'>Upload image to server</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <select placeholder="Category" {...register("category")} required defaultValue="none">
+      <form className="flex gap-4 flex-col items-center" onSubmit={handleSubmit(onSubmit)}>
+        <select className="p-2 rounded-md border-2 cursor-pointer border-gray-400 bg-gray-800 text-white w-full" placeholder="Category" {...register("category")} required defaultValue="none">
             <option value="none">
               Select a Category
             </option>
@@ -39,8 +44,17 @@ const Upload = () => {
             </option>
           ))}
         </select>
-        <input type="file" {...register("file")} required />
-        <input type="submit" />
+        <input 
+          className="block w-full text-sm text-white border rounded-md 
+          cursor-pointer bg-gray-700 border-gray-600 placeholder-gray-400
+          file:bg-gray-900 file:text-white file:border-0 file:p-2" 
+          type="file" {...register("file")} required />
+        <button 
+          className="w-full p-2 border-4 border-white border-double 
+          rounded-md text-white font-bold text-lg bg-gray-700" 
+          type="submit">
+            Upload Image
+        </button>
       </form>
     </main>
   )
