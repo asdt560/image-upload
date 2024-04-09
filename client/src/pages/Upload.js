@@ -34,7 +34,10 @@ const Upload = () => {
     <main className='flex flex-col items-center gap-8'>
       <h1 className='text-2xl text-white font-bold'>Upload image to server</h1>
       <form className="flex gap-4 flex-col items-center" onSubmit={handleSubmit(onSubmit)}>
-        <select className="p-2 rounded-md border-2 cursor-pointer border-gray-400 bg-gray-800 text-white w-full" placeholder="Category" {...register("category")} required defaultValue="none">
+        <select 
+          className="p-2 rounded-md border-2 cursor-pointer 
+          border-gray-400 bg-gray-800 text-white w-full" 
+          placeholder="Category" {...register("category")} required defaultValue="none">
             <option value="none">
               Select a Category
             </option>
