@@ -20,6 +20,7 @@ const Main = () => {
     <main className='flex flex-col items-center gap-8'>
       <h1 className='text-2xl text-white font-bold'>See images here</h1>
       <img
+          className="max-w-36"
           src={`data:image/jpeg;base64,${image}`}
           alt=""
       />
