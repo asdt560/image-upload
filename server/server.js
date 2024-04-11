@@ -6,7 +6,6 @@ import pg from './db.js'
 import imagesRoutes from './routes/images.js'
 import categoriesRoutes from './routes/categories.js'
 
-
 const app = express();
 
 app.use(cors());
@@ -19,6 +18,9 @@ app.use(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+
+app.use(express.static('.'))
 
 const createCategoriesTable =`
   CREATE TABLE IF NOT EXISTS categories(

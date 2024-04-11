@@ -25,13 +25,9 @@ router.get("/", async (req, res) => {
       pg.any(randomImage)
         .then((result) => {
           console.log(result)
-          let file = result[0].filepath
-          const type = mime[path.extname(file).slice(1)] || 'text/plain';
-          const imageData = fs.readFileSync(file, { encoding: 'base64' });
           res.send({
-            header: 'Content-Type', type,
             status: "success",
-            body: imageData,
+            body: result,
           });
         })
         .catch((error) => {
@@ -41,6 +37,22 @@ router.get("/", async (req, res) => {
   } catch (err) {
     res.status(500).send(err)
   }
+})
+
+router.get("/:categoryId", (req, res) => {
+  console.log(req.params)
+  const imagesPerCategory = `SELECT * FROM images WHERE category = ${req.params.categoryId}`
+  pg.any(imagesPerCategory)
+  .then((result) => {
+    console.log(result)
+    res.send({
+      status: "success",
+      body: result,
+    });
+  })
+  .catch((error) => {
+    console.log(error)
+  })
 })
 
 router.post("/", async (req, res) => {

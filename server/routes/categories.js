@@ -52,4 +52,22 @@ router.get("/", async (req, res) => {
     })
 });
 
+router.get("/:id", (req, res) => {
+  console.log(req.params)
+  const categoryById = `SELECT * FROM categories WHERE id = ${req.params.id}`
+  pg.any(categoryById)
+    .then((result) => {
+      res.send({
+        status: "success",
+        message: "Category sent",
+        data: {
+          category: result
+        },
+      });
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    })
+})
+
 export default router;
