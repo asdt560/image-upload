@@ -8,19 +8,19 @@ const Categories = () => {
 
   const getCategoryArray = async () => {
     const categoryArray = await dispatch(getCategories())
-    setCategories(categoryArray.payload)
+    setCategories(categoryArray.payload.data.categories)
   }
 
   useEffect(() => {
     getCategoryArray()
-  })
+  }, [])
 
   return (
-    <main>
-      <h1>Look at images per category</h1>
-      <div>
+    <main >
+      <h1 className='text-2xl text-white font-bold'>Look at images per category</h1>
+      <div className='flex items-center gap-4'>
         {categories.map((category) => (
-          <p key={category.id}>{category.categoryname}</p>
+          <p className='border-2 p-2 border-double border-white cursor-pointer w-1/5' key={category.id}>{category.categoryname}</p>
         ))}
       </div>
     </main>
