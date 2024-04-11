@@ -9,7 +9,7 @@ const Main = () => {
   const getRandomImage = async () => {
     const randomImage = await dispatch(getImages('random=true'))
     console.log(randomImage)
-    setImage(randomImage.payload.body)
+    setImage(randomImage.payload.body[0].filepath)
   }
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const Main = () => {
       <h1 className='text-2xl text-white font-bold'>See images here</h1>
       <img
           className="max-w-36"
-          src={`data:image/jpeg;base64,${image}`}
+          src={`http://localhost:5000/${image}`}
           alt=""
       />
     </main>

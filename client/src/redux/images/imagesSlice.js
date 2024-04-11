@@ -7,6 +7,13 @@ const getImages = createAsyncThunk('images/getImage', async (params) => {
   return resp;
 });
 
+const getImagesPerCategory = createAsyncThunk('images/getImagesPerCategory', async (cat) => {
+  const resp = await fetch(`http://localhost:5000/api/v1/images/${cat}`)
+    .then((resp) => resp.json())
+    .then((result) => result);
+  return resp;
+})
+
 const addImage = createAsyncThunk('images/addImage', async (obj) => {
   const response = await fetch('http://localhost:5000/api/v1/images', {
     method: 'POST',
@@ -37,6 +44,21 @@ const imagesSlice = createSlice({
       images: [],
       error: action.error.message,
     }));
+    builder.addCase(getImagesPerCategory.pending, (state) => ({
+      ...state,
+      loading: true,
+    }));
+    builder.addCase(getImagesPerCategory.fulfilled, (state, action) => ({
+      ...state,
+      loading: false,
+      image: action.payload,
+    }));
+    builder.addCase(getImagesPerCategory.rejected, (state, action) => ({
+      ...state,
+      loading: false,
+      images: [],
+      error: action.error.message,
+    }));
     builder.addCase(addImage.pending, (state) => ({
       ...state,
       loading: true,
@@ -54,4 +76,4 @@ const imagesSlice = createSlice({
 });
 
 export default imagesSlice.reducer;
-export { addImage, getImages };
+export { addImage, getImages, getImagesPerCategory };

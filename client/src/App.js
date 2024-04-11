@@ -20,7 +20,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/categories" element={<Categories />} />
-          <Route path="/category/:id" element={<Category />}/>
+          <Route path="/category/:categoryId" element={<Category />}/>
           <Route path="/add_category" element={<AddCategory />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/search" element={<Search />} />

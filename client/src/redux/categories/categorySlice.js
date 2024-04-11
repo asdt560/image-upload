@@ -8,6 +8,15 @@ const getCategories = createAsyncThunk('categories/getCategory', async () => {
   return resp;
 });
 
+const getCategoryById = createAsyncThunk('categories/getCategoryById', async (id) => {
+  console.log(id)
+  const resp = await fetch(`http://localhost:5000/api/v1/categories/${id}`)
+    .then((resp) => resp.json())
+    .then((result) => result)
+  console.log(resp)
+  return resp;
+})
+
 const addCategory = createAsyncThunk('categories/addCategory', async (obj) => {
   const response = await fetch('http://localhost:5000/api/v1/categories', {
     method: 'POST',
@@ -24,6 +33,7 @@ const categorySlice = createSlice({
   initialState: {
     loading: false,
     categories: [],
+    currentCategory: {},
   },
   extraReducers: (builder) => {
     builder.addCase(getCategories.pending, (state) => ({
@@ -39,6 +49,21 @@ const categorySlice = createSlice({
       ...state,
       loading: false,
       categories: [],
+      error: action.error.message,
+    }));
+    builder.addCase(getCategoryById.pending, (state) => ({
+      ...state,
+      loading: true,
+    }));
+    builder.addCase(getCategoryById.fulfilled, (state, action) => ({
+      ...state,
+      loading: false,
+      currentCategory: action.payload,
+    }));
+    builder.addCase(getCategoryById.rejected, (state, action) => ({
+      ...state,
+      loading: false,
+      currentCategory: {},
       error: action.error.message,
     }));
     builder.addCase(addCategory.pending, (state) => ({
@@ -58,4 +83,4 @@ const categorySlice = createSlice({
 });
 
 export default categorySlice.reducer;
-export { getCategories, addCategory };
+export { getCategories, getCategoryById, addCategory };
