@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 import Main from './pages/Main'
 import Categories from "./pages/Categories";
+import Category from "./pages/Category"
 import AddCategory from "./pages/AddCategory";
 import Upload from "./pages/Upload"
 import './App.css';
@@ -19,6 +20,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/categories" element={<Categories />} />
+          <Route path="/category/:id" element={<Category />}/>
           <Route path="/add_category" element={<AddCategory />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/search" element={<Search />} />
