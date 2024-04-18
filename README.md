@@ -1,6 +1,6 @@
-# Project Name
+# Image Storage Site
 
-A brief description of your project.
+Allows for images to be stored in categories.
 
 ## Table of Contents
 
@@ -11,11 +11,11 @@ A brief description of your project.
 
 ## Installation
 
-Instructions on how to install and set up your project.
+Organized as effectively two separate projects stored in one repository. Server packages and Client packages must be installed separately.
 
 ## Usage
 
-Instructions on how to use your project and any relevant examples or screenshots.
+Client and server must also be started separately.
 
 ## Contributing
 
