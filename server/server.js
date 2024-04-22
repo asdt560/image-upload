@@ -5,6 +5,7 @@ import 'dotenv/config'
 import pg from './db.js'
 import imagesRoutes from './routes/images.js'
 import categoriesRoutes from './routes/categories.js'
+import usersRoutes from './routes/users.js'
 
 const app = express();
 
@@ -86,7 +87,7 @@ pg.any(createImagesTable)
 
 app.use("/api/v1/images", imagesRoutes)
 app.use("/api/v1/categories", categoriesRoutes)
-
+app.use("/api/v1/users", usersRoutes)
 
 const port = 5000;
 
