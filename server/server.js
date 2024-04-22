@@ -28,6 +28,7 @@ const createUsersTable = `
   CREATE TABLE IF NOT EXISTS users(
     id serial PRIMARY KEY,
     username text NOT NULL,
+    created_at timestamp,
     password text NOT NULL
   )
 `
@@ -36,6 +37,7 @@ const createCategoriesTable =`
   CREATE TABLE IF NOT EXISTS categories(
     id serial PRIMARY KEY,
     categoryName text NOT NULL,
+    created_at timestamp,
     creator_id int references users(id)
   )
 `
@@ -45,6 +47,7 @@ const createImagesTable = `
     id serial PRIMARY KEY,
     category int references categories(id),
     upload_id int references users(id),
+    created_at timestamp,
     filepath text NOT NULL
   );
 `;
