@@ -22,10 +22,21 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static('.'))
 
+const cryptography = `CREATE EXTENSION IF NOT EXISTS pgcrypto`
+
+const createUsersTable = `
+  CREATE TABLE IF NOT EXISTS users(
+    id serial PRIMARY KEY,
+    username text NOT NULL,
+    password text NOT NULL
+  )
+`
+
 const createCategoriesTable =`
   CREATE TABLE IF NOT EXISTS categories(
     id serial PRIMARY KEY,
-    categoryName text
+    categoryName text NOT NULL,
+    creator_id int references users(id)
   )
 `
 
@@ -33,9 +44,26 @@ const createImagesTable = `
   CREATE TABLE IF NOT EXISTS images(
     id serial PRIMARY KEY,
     category int references categories(id),
-    filepath text
+    upload_id int references users(id),
+    filepath text NOT NULL
   );
 `;
+
+pg.any(cryptography)
+  .then((data) => {
+    console.log('Table created successfully', data);
+  })
+  .catch((err) => {
+    console.error('Error creating table', err);
+  })
+
+pg.any(createUsersTable)
+  .then((data) => {
+    console.log('Table created successfully', data);
+  })
+  .catch((err) => {
+    console.error('Error creating table', err);
+  })
 
 pg.any(createCategoriesTable)
   .then((data) => {
