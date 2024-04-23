@@ -19,6 +19,10 @@ const Navbar = () => {
         className="py-2 px-8 pointer font-bold text-lg text-white font-sans hover:bg-white hover:text-gray-900" 
         to="/add_category"
       >Add Category</NavLink>
+      <NavLink 
+        className="py-2 px-8 pointer font-bold text-lg text-white font-sans hover:bg-white hover:text-gray-900" 
+        to="/signup"
+      >Sign Up</NavLink>
     </nav>
   )
 }

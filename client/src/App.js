@@ -11,6 +11,7 @@ import Upload from "./pages/Upload"
 import './App.css';
 import Search from "./pages/Search";
 import Navbar from "./components/Navbar";
+import Signup from "./pages/Signup";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/add_category" element={<AddCategory />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </Router>
     </div>
