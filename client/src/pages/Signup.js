@@ -27,26 +27,38 @@ const Signup = () => {
   };
 
   return (
-    <div>
-      <h2>Signup</h2>
-      <form onSubmit={handleSubmit}>
+    <main className='flex flex-col items-center gap-8'>
+      <h2 className='text-2xl text-white font-bold'>Signup</h2>
+      <form className="flex gap-4 flex-col items-center" onSubmit={handleSubmit}>
         <label>
           Email:
-          <input type="text" value={email} onChange={handleEmailChange} />
+          <input 
+            className="p-2 rounded-md border-2 cursor-pointer 
+            border-gray-400 bg-gray-800 text-white w-full"
+            type="text" value={email} onChange={handleEmailChange} />
         </label>
         <label>
           Username:
-          <input type="text" value={username} onChange={handleUsernameChange} />
+          <input 
+            className="p-2 rounded-md border-2 cursor-pointer 
+            border-gray-400 bg-gray-800 text-white w-full"
+            type="text" value={username} onChange={handleUsernameChange} />
         </label>
         <br />
         <label>
           Password:
-          <input type="password" value={password} onChange={handlePasswordChange} />
+          <input 
+            className="p-2 rounded-md border-2 cursor-pointer 
+            border-gray-400 bg-gray-800 text-white w-full"
+            type="password" value={password} onChange={handlePasswordChange} />
         </label>
         <br />
-        <button type="submit">Sign up</button>
+        <button 
+          className="w-full p-2 border-4 border-white border-double 
+          rounded-md text-white font-bold text-lg bg-gray-700" 
+          type="submit">Sign up</button>
       </form>
-    </div>
+    </main>
   );
 };
 
