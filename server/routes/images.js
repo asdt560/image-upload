@@ -1,21 +1,8 @@
 import express from "express";
-import fs from "fs";
-import path from 'path';
 import 'dotenv/config'
 import pg from '../db.js'
 
 const router = express.Router()
-
-const mime = {
-  html: 'text/html',
-  txt: 'text/plain',
-  css: 'text/css',
-  gif: 'image/gif',
-  jpg: 'image/jpeg',
-  png: 'image/png',
-  svg: 'image/svg+xml',
-  js: 'application/javascript'
-};
 
 router.get("/", async (req, res) => {
   let params = req.query;

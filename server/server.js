@@ -30,6 +30,7 @@ const createUsersTable = `
     id serial PRIMARY KEY,
     username text NOT NULL,
     created_at timestamp,
+    email text NOT NULL,
     password text NOT NULL
   )
 `
