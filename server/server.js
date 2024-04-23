@@ -57,30 +57,27 @@ const createImagesTable = `
 pg.any(cryptography)
   .then((data) => {
     console.log('Table created successfully', data);
-  })
-  .catch((err) => {
-    console.error('Error creating table', err);
-  })
-
-pg.any(createUsersTable)
-  .then((data) => {
-    console.log('Table created successfully', data);
-  })
-  .catch((err) => {
-    console.error('Error creating table', err);
-  })
-
-pg.any(createCategoriesTable)
-  .then((data) => {
-    console.log('Table created successfully', data);
-  })
-  .catch((err) => {
-    console.error('Error creating table', err);
-  })
-
-pg.any(createImagesTable)
-  .then((data) => {
-    console.log('Table created successfully', data);
+    pg.any(createUsersTable)
+      .then((data) => {
+        console.log('Table created successfully', data);
+        pg.any(createCategoriesTable)
+          .then((data) => {
+            console.log('Table created successfully', data);
+            pg.any(createImagesTable)
+              .then((data) => {
+                console.log('Table created successfully', data);
+              })
+              .catch((err) => {
+                console.error('Error creating table', err);
+              })
+          })
+          .catch((err) => {
+            console.error('Error creating table', err);
+          })
+      })
+      .catch((err) => {
+        console.error('Error creating table', err);
+      })
   })
   .catch((err) => {
     console.error('Error creating table', err);
