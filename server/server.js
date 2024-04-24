@@ -1,6 +1,7 @@
 import express from "express";
 import fileupload from "express-fileupload";
 import cors from "cors";
+import session from 'express-session'
 import 'dotenv/config'
 import pg from './db.js'
 import imagesRoutes from './routes/images.js'
@@ -16,6 +17,14 @@ app.use(
     createParentPath: true,
   }),
 );
+
+app.use(session(
+  {
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+  }
+))
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
