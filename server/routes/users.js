@@ -62,11 +62,55 @@ router.post('/signup', async (req, res) => {
   }
 });
 
-// User Sign In Route
-router.post('/signin', (req, res) => {
-  // Implement user sign in logic here
-  // ...
-  res.send('User signed in successfully');
+// User Log In Route
+router.post('/login', async (req, res) => {
+  if (!req.body.username || !req.body.password) {
+    console.log(req.body)
+    res.status(400);
+    res.send("Invalid details!");
+  } else {
+    console.log(req.body)
+    const invalidUser = await checkIfUserExists(req.body.username)
+    if (!invalidUser) {
+      res.status(400).send("User Does Not Exist!")
+    } else {
+      const checkPassword = `SELECT * FROM users
+        WHERE username = '${req.body.username}' 
+        AND password = crypt('${req.body.password}', password);`
+        console.log(checkPassword)
+      pg.any(checkPassword)
+        .then((result) => {
+          if (result.length) {
+            req.session.user = {username: result[0].username, id: result[0].id};
+            console.log(req.session.id)
+            res.send({
+              status: "success",
+              logged: true,
+              username: req.session.username,
+              session: req.session.id
+            })
+          } else {
+            res.status(400).send("Password Incorrect!")
+          }
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    }
+  }
 });
+
+router.get('/', (req, res) => {
+  console.log(req.session.id, 'session data')
+  if(req.session.user) {
+    res.send({
+      valid: true, user: req.session.user
+    })
+  } else {
+    res.send({
+      valid: false
+    })
+  }
+})
 
 export default router;
