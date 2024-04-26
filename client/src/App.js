@@ -12,6 +12,7 @@ import './App.css';
 import Search from "./pages/Search";
 import Navbar from "./components/Navbar";
 import Signup from "./pages/Signup";
+import Login from "./pages/Login"
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/upload" element={<Upload />} />
           <Route path="/search" element={<Search />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </Router>
     </div>

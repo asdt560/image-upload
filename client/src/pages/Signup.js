@@ -42,7 +42,7 @@ const Signup = () => {
           <input 
             className="p-2 rounded-md border-2 cursor-pointer 
             border-gray-400 bg-gray-800 text-white w-full"
-            type="text" value={email} onChange={handleEmailChange} />
+            type="email" value={email} onChange={handleEmailChange} />
         </label>
         <label>
           Username:
