@@ -8,6 +8,19 @@ import pgSession from 'connect-pg-simple'
 
 const app = express();
 
+import imagesRoutes from './routes/images.js'
+import categoriesRoutes from './routes/categories.js'
+import usersRoutes from './routes/users.js'
+
+const corsOptions = {
+  origin: 'http://127.0.0.1:3000',
+  methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+  preflightContinue: true,
+  credentials: true
+}
+
+app.use(cors(corsOptions));
+
 app.use(session(
   {
     store: new (pgSession(session))({
@@ -18,25 +31,13 @@ app.use(session(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      sameSite: 'none',
+      sameSite: 'lax',
       secure: process.env.NODE_ENV === "production",
       maxAge: 1000 * 60 * 60,
       httpOnly: false
     }
   }
 ))
-
-import imagesRoutes from './routes/images.js'
-import categoriesRoutes from './routes/categories.js'
-import usersRoutes from './routes/users.js'
-
-const corsOptions = {
-  origin: 'http://127.0.0.1:3000',
-  methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
-  credentials: true
-}
-
-app.use(cors(corsOptions));
 
 app.use(
   fileupload({
@@ -47,14 +48,14 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(function(req, res, next) {  
-  res.header('Access-Control-Allow-Origin', req.headers.origin);
+/*app.use(function(req, res, next) {  
+  res.header('Access-Control-Allow-Origin', "http://127.0.0.1:3000");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header("Access-Control-Allow-Headers","*");
   res.header('Access-Control-Allow-Credentials', true);
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   next();
-});  
+});*/  
 
 
 app.use(express.static('.'))
