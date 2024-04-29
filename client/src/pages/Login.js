@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { createSession } from '../redux/session/sessionSlice';
+import { useDispatch } from 'react-redux';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -16,22 +19,9 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch('http://127.0.0.1:5000/api/v1/users/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer {token}'
-      },
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-      credentials: 'include'
-    })
-      .then((response) => response.json())
-      console.log(response)
-    if(response.logged === true) {
-      console.log('logged in')
+    const resp = await dispatch(createSession({username, password}))
+    console.log(resp)
+    if(resp.payload.logged) {
       navigate('/')
     }
   };

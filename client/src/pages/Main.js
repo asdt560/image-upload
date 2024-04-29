@@ -12,21 +12,7 @@ const Main = () => {
     setImage(randomImage.payload.body[0].filepath)
   }
 
-  const checkLogin = async () => {
-    const response = await fetch('http://127.0.0.1:5000/api/v1/users', {
-      method: 'GET',
-      headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer {token}'
-      },
-      credentials: "include",
-    })
-      .then((response) => response.json())
-    console.log(response)
-  }
-
   useEffect(() => {
-    checkLogin()
     /*getRandomImage()*/
   }, [])
 

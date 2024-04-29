@@ -86,8 +86,7 @@ router.post('/login', async (req, res) => {
             res.send({
               status: "success",
               logged: true,
-              username: req.session.username,
-              session: req.session.id
+              user: req.session.user,
             })
           } else {
             res.status(400).send("Password Incorrect!")
@@ -108,7 +107,8 @@ router.get('/', (req, res) => {
     })
   } else {
     res.send({
-      valid: false
+      valid: false,
+      user: null
     })
   }
 })
