@@ -13,17 +13,17 @@ const Main = () => {
   }
 
   useEffect(() => {
-    /*getRandomImage()*/
+    getRandomImage()
   }, [])
 
   return (
     <main className='flex flex-col items-center gap-8'>
       <h1 className='text-2xl text-white font-bold'>See images here</h1>
-      {/*<img
+      {<img
           className="max-w-36"
           src={`http://localhost:5000/${image}`}
           alt=""
-        />*/}
+        />}
     </main>
   )
 }
