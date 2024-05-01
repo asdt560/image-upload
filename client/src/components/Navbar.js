@@ -1,27 +1,32 @@
-import { NavLink } from 'react-router-dom';
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
-import { checkSession } from '../redux/session/sessionSlice';
+import { NavLink, useLocation } from 'react-router-dom';
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { checkSession, destroySession } from '../redux/session/sessionSlice';
 
 const RightEnd = () => {
-
-  const [user, setUser] = useState(null)
   const dispatch = useDispatch()
+  const user = useSelector((state) => state.sessionReducer.user)
+
+  const logout = async () => {
+    dispatch(destroySession())
+  }
 
   const getUserData = async () => {
     const data = await dispatch(checkSession())
     console.log(data.payload.user)
-    setUser(data.payload.user)
   }
+
   useEffect(() => {
+    console.log(user, 'user')
     getUserData()
   }, [])
 
   if (user) {
     return (
       <div
-      className="py-2 px-8 pointer font-bold text-lg text-white 
-      font-sans hover:bg-white hover:text-gray-900">
+        onClick={() => logout()}
+        className="py-2 px-8 pointer font-bold text-lg text-white 
+        font-sans hover:bg-white hover:text-gray-900">
         {user.username}
       </div>
     )

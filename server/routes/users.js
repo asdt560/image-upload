@@ -103,13 +103,27 @@ router.get('/', (req, res) => {
   console.log(req.session.id, 'session data')
   if(req.session.user) {
     res.send({
-      valid: true, user: req.session.user
+      user: req.session.user
     })
   } else {
     res.send({
       valid: false,
       user: null
     })
+  }
+})
+
+router.delete('/logout', (req, res) => {
+  if (req.session) {
+    req.session.destroy(err => {
+      if (err) {
+        res.status(400).send('Unable to log out')
+      } else {
+        res.send('Logout successful')
+      }
+    });
+  } else {
+    res.end()
   }
 })
 
