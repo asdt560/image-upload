@@ -68,6 +68,7 @@ const createCategoriesTable =`
     id serial PRIMARY KEY,
     categoryName text NOT NULL,
     created_at timestamp,
+    private boolean,
     creator_id int references users(id)
   )
 `
