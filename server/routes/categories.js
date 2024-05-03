@@ -9,8 +9,13 @@ router.post("/", async (req, res) => {
     let folder = req.body.category
     if (!fs.existsSync(`./images/${folder}`)) {
       const insertCategory = `
-        INSERT INTO categories (categoryName)
-        VALUES ('${folder}')
+        INSERT INTO categories (categoryName, created_at, private, creator_id)
+        VALUES (
+          '${folder}',
+          current_timestamp,
+          '${req.body.privacy}',
+          ${req.session.user.id}
+        )
       `
       pg.none(insertCategory)
         .then(() => {
@@ -36,7 +41,7 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  const allCategories = `SELECT * FROM categories`
+  const allCategories = `SELECT * FROM categories WHERE creator_id = ${req.session.user.id}`
   pg.any(allCategories)
     .then((result) => {
       res.send({
