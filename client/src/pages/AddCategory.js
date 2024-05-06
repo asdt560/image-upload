@@ -7,12 +7,12 @@ const AddCategory = () => {
 
   const dispatch = useDispatch();
 
+  const handleCheckbox = (e) => {
+    setPrivacy(e.currentTarget.checked)
+  }
+
   const handleChange = (e) => {
-    if(typeof e.target.value === Boolean) {
-      setPrivacy(e.target.value)
-    } else {
-      setCategory(`${e.target.value}`)
-    }
+    setCategory(`${e.target.value}`)
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +28,7 @@ const AddCategory = () => {
           type="text" placeholder="Category" onChange={handleChange}/>
         <label>
           Private:
-          <input type="checkbox" />
+          <input type="checkbox" onChange={handleCheckbox} />
         </label>
         <button 
           className="w-full p-2 border-4 border-white border-double 

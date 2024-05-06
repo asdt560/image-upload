@@ -82,7 +82,7 @@ router.post('/login', async (req, res) => {
         .then((result) => {
           if (result.length) {
             req.session.user = {username: result[0].username, id: result[0].id};
-            console.log(req.session.id)
+            console.log(req.session)
             res.send({
               status: "success",
               logged: true,
@@ -100,7 +100,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/', (req, res) => {
-  console.log(req.session.id, 'session data')
+  console.log(req.session.user, req.session.id)
   if(req.session.user) {
     res.send({
       user: req.session.user
