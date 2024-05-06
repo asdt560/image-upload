@@ -1,25 +1,43 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const getImages = createAsyncThunk('images/getImage', async (params) => {
-  const resp = await fetch(`http://localhost:5000/api/v1/images?${params}`)
+  const resp = await fetch(`http://127.0.0.1:5000/api/v1/images?${params}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer {token}'
+    },
+    credentials: "include",
+  })
     .then((resp) => resp.json())
     .then((result) => result);
   return resp;
 });
 
 const getImagesPerCategory = createAsyncThunk('images/getImagesPerCategory', async (cat) => {
-  const resp = await fetch(`http://localhost:5000/api/v1/images/${cat}`)
-    .then((resp) => resp.json())
+  const resp = await fetch(`http://127.0.0.1:5000/api/v1/images/${cat}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: "include",
+  })
+    
     .then((result) => result);
   return resp;
 })
 
 const addImage = createAsyncThunk('images/addImage', async (obj) => {
-  const response = await fetch('http://localhost:5000/api/v1/images', {
+  console.log(obj)
+  const response = await fetch('http://127.0.0.1:5000/api/v1/images', {
     method: 'POST',
+    credentials: "include",
     body: obj,
-  });
-  return response.json();
+    category: obj.category
+  })
+    .then((response) => response.json())
+  console.log(response)
+  return response;
 });
 
 const imagesSlice = createSlice({

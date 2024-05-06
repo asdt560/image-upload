@@ -1,6 +1,23 @@
 import express from "express";
 import 'dotenv/config'
 import pg from '../db.js'
+import fs from 'fs'
+import multer from 'multer'
+
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    const path = `../imagefolder/${req.body.category}`
+    if(!fs.existsSync(path)) {
+      fs.mkdirSync(path, {recursive : true})
+    }
+    return cb(null, path)
+  },
+  filename: function(req, file, cb) {
+    return cb(null, `${Date.now()}_${file.originalname}`)
+  }
+})
+
+const upload = multer({storage})
 
 const router = express.Router()
 
@@ -42,7 +59,7 @@ router.get("/:categoryId", (req, res) => {
   })
 })
 
-router.post("/", async (req, res) => {
+router.post("/", upload.single('files'), async (req, res) => {
   try {
     if (!req.files) {
       res.send({
@@ -51,15 +68,17 @@ router.post("/", async (req, res) => {
       });
     } else {
       console.log(req.body)
-      let file = req.files.file;
-      let folder = req.body.category
-      let path = `./images/${folder}/${file.name}`
+      let path = `./imagefolder/${folder}/${req.files.name}`
 
-      file.mv(path);
-
+      console.log(path)
       const insertItem = `
-        INSERT INTO images (category, filepath)
-        VALUES (${folder}, '${path}')
+        INSERT INTO images (category, upload_id, created_at filepath)
+        VALUES (
+          ${folder},
+          ${req.session.user.id},
+          current_timestamp, 
+          '${path}'
+        )
       `
       pg.none(insertItem)
         .then(() => {
@@ -75,7 +94,7 @@ router.post("/", async (req, res) => {
           });
         })
         .catch((err) => {
-          console.error('Error inserting', err);
+          console.error('Error inserting', err.message);
         })
     }
   } catch (err) {
