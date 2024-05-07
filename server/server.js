@@ -41,7 +41,6 @@ app.use(session(
 
 app.use(
   fileupload({
-    debug: true,
     createParentPath: true,
   }),
 );

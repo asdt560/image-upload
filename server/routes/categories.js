@@ -43,20 +43,32 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  const allCategories = `SELECT * FROM categories WHERE creator_id = ${req.session.user.id}`
-  pg.any(allCategories)
-    .then((result) => {
-      res.send({
-        status: "success",
-        message: "Categories sent",
-        data: {
-          categories: result
-        },
-      });
-    })
-    .catch((error) => {
-      res.status(500).send(error);
-    })
+  try {
+    let allCategories;
+    if(req.session.user) {
+      allCategories = `SELECT * FROM categories WHERE creator_id = ${req.session.user.id} OR private = false`
+    } else {
+      allCategories = `SELECT * FROM categories WHERE private = false`
+    }
+    pg.any(allCategories)
+      .then((result) => {
+        console.log(result)
+        res.send({
+          status: "success",
+          message: "Categories sent",
+          data: {
+            categories: result
+          },
+        });
+      })
+      .catch((error) => {
+        console.log(error)
+        res.status(500).send(error);
+      })
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(err);
+  }
 });
 
 router.get("/:id", (req, res) => {
