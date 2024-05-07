@@ -22,8 +22,8 @@ const getImagesPerCategory = createAsyncThunk('images/getImagesPerCategory', asy
     },
     credentials: "include",
   })
-    
-    .then((result) => result);
+    .then((resp) => resp.json());
+  console.log(resp)
   return resp;
 })
 
@@ -33,7 +33,6 @@ const addImage = createAsyncThunk('images/addImage', async (obj) => {
     method: 'POST',
     credentials: "include",
     body: obj,
-    category: obj.category
   })
     .then((response) => response.json())
   console.log(response)

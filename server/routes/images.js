@@ -2,22 +2,7 @@ import express from "express";
 import 'dotenv/config'
 import pg from '../db.js'
 import fs from 'fs'
-import multer from 'multer'
 
-const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    const path = `../imagefolder/${req.body.category}`
-    if(!fs.existsSync(path)) {
-      fs.mkdirSync(path, {recursive : true})
-    }
-    return cb(null, path)
-  },
-  filename: function(req, file, cb) {
-    return cb(null, `${Date.now()}_${file.originalname}`)
-  }
-})
-
-const upload = multer({storage})
 
 const router = express.Router()
 
@@ -59,7 +44,7 @@ router.get("/:categoryId", (req, res) => {
   })
 })
 
-router.post("/", upload.single('files'), async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     if (!req.files) {
       res.send({
@@ -68,13 +53,19 @@ router.post("/", upload.single('files'), async (req, res) => {
       });
     } else {
       console.log(req.body)
-      let path = `./imagefolder/${folder}/${req.files.name}`
 
+      const file = req.files.files
+
+      console.log(file)
+
+      let path = `./imagefolder/${req.body.category}/${req.files.files.name}`
       console.log(path)
+      file.mv(path)
+
       const insertItem = `
-        INSERT INTO images (category, upload_id, created_at filepath)
+        INSERT INTO images (category, upload_id, created_at, filepath)
         VALUES (
-          ${folder},
+          ${req.body.category},
           ${req.session.user.id},
           current_timestamp, 
           '${path}'
@@ -82,7 +73,7 @@ router.post("/", upload.single('files'), async (req, res) => {
       `
       pg.none(insertItem)
         .then(() => {
-          console.log('Entry created successfully', result);
+          console.log('Entry created successfully');
           res.send({
             status: "success",
             message: "File is uploaded",
@@ -98,6 +89,7 @@ router.post("/", upload.single('files'), async (req, res) => {
         })
     }
   } catch (err) {
+    console.log(err)
     res.status(500).send(err);
   }
 });

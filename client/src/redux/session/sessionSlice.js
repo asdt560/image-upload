@@ -5,7 +5,6 @@ const createSession = createAsyncThunk('session/createSession', async(obj) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer {token}'
       },
       body: JSON.stringify(obj),
       credentials: 'include'
@@ -20,7 +19,6 @@ const destroySession = createAsyncThunk('session/destroySession', async () => {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer {token}'
     },
     credentials: 'include'
   })
