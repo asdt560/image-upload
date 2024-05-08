@@ -6,10 +6,15 @@ const router = express.Router()
 
 router.post("/", async (req, res) => {
   try {
+    if(!req.session.user) {
+      res.send({
+        status: "failed",
+        message: "Not logged in",
+      });
+    }
     let folder = req.body.category
     console.log(req.body)
     if (!fs.existsSync(`./images/${folder}`)) {
-      console.log(req.session.id)
       const insertCategory = `
         INSERT INTO categories (categoryName, created_at, private, creator_id)
         VALUES (
