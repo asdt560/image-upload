@@ -10,7 +10,11 @@ router.get("/", async (req, res) => {
   let params = req.query;
   try {
     if (params.random) {
-      const randomImage = `SELECT * FROM images ORDER BY RANDOM() LIMIT 1`
+      const randomImage = `
+      SELECT * FROM images 
+      INNER JOIN categories ON images.category = categories.id 
+      WHERE categories.private = f 
+      ORDER BY RANDOM() LIMIT 1`
       pg.any(randomImage)
         .then((result) => {
           console.log(result)
