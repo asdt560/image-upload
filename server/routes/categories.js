@@ -73,7 +73,12 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", (req, res) => {
   console.log(req.params)
-  const categoryById = `SELECT * FROM categories WHERE id = ${req.params.id}`
+  let categoryById;
+  if(req.session.user) {
+    categoryById = `SELECT * FROM categories WHERE id = ${req.params.id} IF created_by = ${req.session.user.id}`
+  } else {
+    categoryById = `SELECT * FROM categories WHERE id = ${req.params.id} IF private = f`
+  }
   pg.any(categoryById)
     .then((result) => {
       res.send({
