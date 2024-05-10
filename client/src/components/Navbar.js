@@ -50,6 +50,17 @@ const RightEnd = () => {
 
 const Navbar = () => {
 
+  const user = useSelector((state) => state.sessionReducer.user)
+
+  const getUserData = async () => {
+    const data = await dispatch(checkSession())
+    console.log(data.payload.user)
+  }
+
+  useEffect(() => {
+    console.log(user, 'user')
+    getUserData()
+  }, [])
   return (
     <nav className="flex border-b-4 border-white justify-between bg-gray-900">
       <NavLink
