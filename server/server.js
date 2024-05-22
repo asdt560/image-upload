@@ -14,7 +14,7 @@ import usersRoutes from './routes/users.js'
 
 const corsOptions = {
   origin: 'http://127.0.0.1:3000',
-  methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+  methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "DELETE"],
   preflightContinue: true,
   credentials: true
 }
@@ -33,7 +33,7 @@ app.use(session(
     cookie: {
       sameSite: 'lax',
       secure: process.env.NODE_ENV === "production",
-      maxAge: 1000 * 60 * 60,
+      maxAge: 1000 * 60 * 60 * 24,
       httpOnly: false
     }
   }
@@ -68,6 +68,7 @@ const createCategoriesTable =`
     id serial PRIMARY KEY,
     categoryName text NOT NULL,
     created_at timestamp,
+    private boolean,
     creator_id int references users(id)
   )
 `

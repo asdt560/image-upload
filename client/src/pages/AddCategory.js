@@ -2,19 +2,21 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addCategory } from '../redux/categories/categorySlice';
 const AddCategory = () => {
-  const [category, setCategory] = useState({
-    category: ''
-  })
+  const [category, setCategory] = useState('')
+  const [privacy, setPrivacy] = useState(false)
+
   const dispatch = useDispatch();
+
+  const handleCheckbox = (e) => {
+    setPrivacy(e.currentTarget.checked)
+  }
+
   const handleChange = (e) => {
-    setCategory({
-      category: e.target.value
-    })
+    setCategory(`${e.target.value}`)
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(category)
-    await dispatch(addCategory(category));
+    await dispatch(addCategory({category, privacy}));
   };
   return (
     <main className='flex flex-col items-center gap-8'>
@@ -24,6 +26,10 @@ const AddCategory = () => {
           className="p-2 rounded-md border-2 cursor-pointer 
           border-gray-400 bg-gray-800 text-white w-full" 
           type="text" placeholder="Category" onChange={handleChange}/>
+        <label>
+          Private:
+          <input type="checkbox" onChange={handleCheckbox} />
+        </label>
         <button 
           className="w-full p-2 border-4 border-white border-double 
           rounded-md text-white font-bold text-lg bg-gray-700" 

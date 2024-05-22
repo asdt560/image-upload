@@ -20,14 +20,10 @@ const Upload = () => {
   const onSubmit = async (data) => {
     const formData = new FormData();
     console.log(data)
-        formData.append("file", data.file[0]);
-        formData.append("category", data.category)
-        const res = await dispatch(addImage(formData))
-        /*const res = await fetch("http://localhost:5000/upload-file", {
-            method: "POST",
-            body: formData,
-        }).then((res) => res.json());*/
-        alert(JSON.stringify(`${res.payload.message}, status: ${res.payload.status}`));
+    formData.append("category", data.category)
+    formData.append("files", data.files[0]);
+    const res = await dispatch(addImage(formData))
+    alert(JSON.stringify(`${res.payload.message}, status: ${res.payload.status}`));
   }
 
   return (
@@ -51,7 +47,7 @@ const Upload = () => {
           className="block w-full text-sm text-white border rounded-md 
           cursor-pointer bg-gray-700 border-gray-600 placeholder-gray-400
           file:bg-gray-900 file:text-white file:border-0 file:p-2" 
-          type="file" {...register("file")} required />
+          type="file" {...register("files")} required />
         <button 
           className="w-full p-2 border-4 border-white border-double 
           rounded-md text-white font-bold text-lg bg-gray-700" 

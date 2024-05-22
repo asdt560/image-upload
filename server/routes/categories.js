@@ -6,11 +6,23 @@ const router = express.Router()
 
 router.post("/", async (req, res) => {
   try {
+    if(!req.session.user) {
+      res.send({
+        status: "failed",
+        message: "Not logged in",
+      });
+    }
     let folder = req.body.category
+    console.log(req.body)
     if (!fs.existsSync(`./images/${folder}`)) {
       const insertCategory = `
-        INSERT INTO categories (categoryName)
-        VALUES ('${folder}')
+        INSERT INTO categories (categoryName, created_at, private, creator_id)
+        VALUES (
+          '${folder}',
+          current_timestamp,
+          '${req.body.privacy}',
+          ${req.session.user.id}
+        )
       `
       pg.none(insertCategory)
         .then(() => {
@@ -36,25 +48,42 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  const allCategories = `SELECT * FROM categories`
-  pg.any(allCategories)
-    .then((result) => {
-      res.send({
-        status: "success",
-        message: "Categories sent",
-        data: {
-          categories: result
-        },
-      });
-    })
-    .catch((error) => {
-      res.status(500).send(error);
-    })
+  try {
+    let allCategories;
+    if(req.session.user) {
+      allCategories = `SELECT * FROM categories WHERE creator_id = ${req.session.user.id} OR private = false`
+    } else {
+      allCategories = `SELECT * FROM categories WHERE private = false`
+    }
+    pg.any(allCategories)
+      .then((result) => {
+        console.log(result)
+        res.send({
+          status: "success",
+          message: "Categories sent",
+          data: {
+            categories: result
+          },
+        });
+      })
+      .catch((error) => {
+        console.log(error)
+        res.status(500).send(error);
+      })
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(err);
+  }
 });
 
 router.get("/:id", (req, res) => {
   console.log(req.params)
-  const categoryById = `SELECT * FROM categories WHERE id = ${req.params.id}`
+  let categoryById;
+  if(req.session.user) {
+    categoryById = `SELECT * FROM categories WHERE id = ${req.params.id} IF created_by = ${req.session.user.id}`
+  } else {
+    categoryById = `SELECT * FROM categories WHERE id = ${req.params.id} IF private = f`
+  }
   pg.any(categoryById)
     .then((result) => {
       res.send({

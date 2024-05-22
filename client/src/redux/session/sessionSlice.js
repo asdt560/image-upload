@@ -5,7 +5,6 @@ const createSession = createAsyncThunk('session/createSession', async(obj) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer {token}'
       },
       body: JSON.stringify(obj),
       credentials: 'include'
@@ -15,12 +14,23 @@ const createSession = createAsyncThunk('session/createSession', async(obj) => {
   return response
 })
 
+const destroySession = createAsyncThunk('session/destroySession', async () => {
+  const response = await fetch('http://127.0.0.1:5000/api/v1/users/logout', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include'
+  })
+  .then((response) => response)
+  return null
+})
+
 const checkSession = createAsyncThunk('session/checkSession', async () => {
   const response = await fetch('http://127.0.0.1:5000/api/v1/users', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer {token}'
     },
     credentials: "include",
   })
@@ -35,7 +45,7 @@ const sessionSlice = createSlice({
     user: null, 
     loading: false, 
     error: null 
-  }, 
+  },
   extraReducers: (builder) => {
     builder.addCase(checkSession.pending, (state) => ({
       ...state,
@@ -44,7 +54,7 @@ const sessionSlice = createSlice({
     builder.addCase(checkSession.fulfilled, (state, action) => ({
       ...state,
       loading: false,
-      user: action.payload,
+      user: action.payload.user,
     }));
     builder.addCase(checkSession.rejected, (state, action) => ({
       ...state,
@@ -67,8 +77,23 @@ const sessionSlice = createSlice({
       user: null,
       error: action.error.message,
     }));
+    builder.addCase(destroySession.pending, (state) => ({
+      ...state,
+      loading: true,
+    }));
+    builder.addCase(destroySession.fulfilled, (state) => ({
+      ...state,
+      loading: false,
+      user: null,
+    }));
+    builder.addCase(destroySession.rejected, (state, action) => ({
+      ...state,
+      loading: false,
+      user: null,
+      error: action.error.message,
+    }));
   }
 })
 
-export { checkSession, createSession };
+export { checkSession, createSession, destroySession };
 export default sessionSlice.reducer;
