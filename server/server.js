@@ -85,16 +85,12 @@ const createImagesTable = `
 
 pg.any(cryptography)
   .then((data) => {
-    console.log('Table created successfully', data);
     pg.any(createUsersTable)
       .then((data) => {
-        console.log('Table created successfully', data);
         pg.any(createCategoriesTable)
           .then((data) => {
-            console.log('Table created successfully', data);
             pg.any(createImagesTable)
               .then((data) => {
-                console.log('Table created successfully', data);
               })
               .catch((err) => {
                 console.error('Error creating table', err);
@@ -118,4 +114,4 @@ app.use("/api/v1/users", usersRoutes)
 
 const port = 5000;
 
-app.listen(port, () => console.log(`Server started on port ${port}`));
+app.listen(port);

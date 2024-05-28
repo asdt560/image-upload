@@ -26,11 +26,9 @@ const checkIfUserExists = (username) => {
 // User Signup Route
 router.post('/signup', async (req, res) => {
   if (!req.body.username || !req.body.password || !req.body.email) {
-    console.log(req.body)
     res.status(400);
     res.send("Invalid details!");
   } else {
-    console.log(req.body)
     const invalidUser = await checkIfUserExists(req.body.username)
     if (invalidUser) {
       res.status(400).send("User Already Exists!")
@@ -48,7 +46,6 @@ router.post('/signup', async (req, res) => {
           )`
         pg.any(insertUser)
           .then((result) => {
-            console.log('Entry created successfully', result);
             res.send({
               status: "success",
               message: "User Created",
@@ -65,11 +62,9 @@ router.post('/signup', async (req, res) => {
 // User Log In Route
 router.post('/login', async (req, res) => {
   if (!req.body.username || !req.body.password) {
-    console.log(req.body)
     res.status(400);
     res.send("Invalid details!");
   } else {
-    console.log(req.body)
     const invalidUser = await checkIfUserExists(req.body.username)
     if (!invalidUser) {
       res.status(400).send("User Does Not Exist!")
@@ -82,7 +77,6 @@ router.post('/login', async (req, res) => {
         .then((result) => {
           if (result.length) {
             req.session.user = {username: result[0].username, id: result[0].id};
-            console.log(req.session)
             res.send({
               status: "success",
               logged: true,

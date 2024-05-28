@@ -1,7 +1,6 @@
 import express from "express";
 import 'dotenv/config'
 import pg from '../db.js'
-import fs from 'fs'
 
 
 const router = express.Router()
@@ -33,11 +32,9 @@ router.get("/", async (req, res) => {
 })
 
 router.get("/:categoryId", (req, res) => {
-  console.log(req.params)
   const imagesPerCategory = `SELECT * FROM images WHERE category = ${req.params.categoryId}`
   pg.any(imagesPerCategory)
   .then((result) => {
-    console.log(result)
     res.send({
       status: "success",
       body: result,
@@ -56,14 +53,10 @@ router.post("/", async (req, res) => {
         message: "No file uploaded",
       });
     } else {
-      console.log(req.body)
 
       const file = req.files.files
 
-      console.log(file)
-
       let path = `./imagefolder/${req.body.category}/${req.files.files.name}`
-      console.log(path)
       file.mv(path)
 
       const insertItem = `
@@ -77,7 +70,6 @@ router.post("/", async (req, res) => {
       `
       pg.none(insertItem)
         .then(() => {
-          console.log('Entry created successfully');
           res.send({
             status: "success",
             message: "File is uploaded",

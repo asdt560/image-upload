@@ -13,7 +13,6 @@ router.post("/", async (req, res) => {
       });
     }
     let folder = req.body.category
-    console.log(req.body)
     if (!fs.existsSync(`./images/${folder}`)) {
       const insertCategory = `
         INSERT INTO categories (categoryName, created_at, private, creator_id)
@@ -26,7 +25,6 @@ router.post("/", async (req, res) => {
       `
       pg.none(insertCategory)
         .then(() => {
-          console.log('Entry created successfully');
           res.send({
             status: "success",
             message: "Category created",
@@ -57,7 +55,6 @@ router.get("/", async (req, res) => {
     }
     pg.any(allCategories)
       .then((result) => {
-        console.log(result)
         res.send({
           status: "success",
           message: "Categories sent",
@@ -77,7 +74,6 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  console.log(req.params)
   let categoryById;
   if(req.session.user) {
     categoryById = `SELECT * FROM categories WHERE id = ${req.params.id} IF created_by = ${req.session.user.id}`
