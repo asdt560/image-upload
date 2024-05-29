@@ -22,10 +22,10 @@
     "express-session": "^1.18.0",
     "pg": "^8.11.3",
     "pg-promise": "^11.5.5",
-    "webpack": "^5.91.0",
-    "webpack-cli": "^5.1.4"
+    "webpack": "^5.91.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "webpack-cli": "^5.1.4"
   }
 }
