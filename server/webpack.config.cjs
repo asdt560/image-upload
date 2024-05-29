@@ -9,4 +9,7 @@ module.exports = {
     filename: 'final.cjs',
   },
   target: 'node',
+  externals: {
+    express: 'express',
+  },
 };
