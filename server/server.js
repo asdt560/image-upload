@@ -13,7 +13,7 @@ import categoriesRoutes from './routes/categories.js'
 import usersRoutes from './routes/users.js'
 
 const corsOptions = {
-  origin: 'http://127.0.0.1:3000',
+  origin: 'https://deployment--tiny-sunburst-e4134c.netlify.app/',
   methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "DELETE"],
   preflightContinue: true,
   credentials: true
@@ -114,4 +114,4 @@ app.use("/api/v1/users", usersRoutes)
 
 const port = 5000;
 
-app.listen(port);
+app.listen(port, () => console.log(`Server started on port ${port}`));
