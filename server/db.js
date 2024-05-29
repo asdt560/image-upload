@@ -5,6 +5,7 @@ const pgp = pgPromise();
 
 
 const cn = {
+  host: process.env.HOST,
   user: process.env.DBUSER,
   password: process.env.DBPASS,
   host: process.env.DBHOST,
