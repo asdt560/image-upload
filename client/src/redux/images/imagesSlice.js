@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const getImages = createAsyncThunk('images/getImage', async (params) => {
-  const resp = await fetch(`http://127.0.0.1:5000/api/v1/images?${params}`, {
+  const resp = await fetch(`https://image-upload-qate.onrender.com/api/v1/images?${params}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -15,7 +15,7 @@ const getImages = createAsyncThunk('images/getImage', async (params) => {
 });
 
 const getImagesPerCategory = createAsyncThunk('images/getImagesPerCategory', async (cat) => {
-  const resp = await fetch(`http://127.0.0.1:5000/api/v1/images/${cat}`, {
+  const resp = await fetch(`https://image-upload-qate.onrender.com/api/v1/images/${cat}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ const getImagesPerCategory = createAsyncThunk('images/getImagesPerCategory', asy
 
 const addImage = createAsyncThunk('images/addImage', async (obj) => {
   console.log(obj)
-  const response = await fetch('http://127.0.0.1:5000/api/v1/images', {
+  const response = await fetch('https://image-upload-qate.onrender.com/api/v1/images', {
     method: 'POST',
     credentials: "include",
     body: obj,

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const createSession = createAsyncThunk('session/createSession', async(obj) => {
-  const response = await fetch('http://127.0.0.1:5000/api/v1/users/login', {
+  const response = await fetch('https://image-upload-qate.onrender.com/api/v1/users/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -15,7 +15,7 @@ const createSession = createAsyncThunk('session/createSession', async(obj) => {
 })
 
 const destroySession = createAsyncThunk('session/destroySession', async () => {
-  const response = await fetch('http://127.0.0.1:5000/api/v1/users/logout', {
+  const response = await fetch('https://image-upload-qate.onrender.com/api/v1/users/logout', {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ const destroySession = createAsyncThunk('session/destroySession', async () => {
 })
 
 const checkSession = createAsyncThunk('session/checkSession', async () => {
-  const response = await fetch('http://127.0.0.1:5000/api/v1/users', {
+  const response = await fetch('https://image-upload-qate.onrender.com/api/v1/users', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
