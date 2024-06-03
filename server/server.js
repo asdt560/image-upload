@@ -13,7 +13,7 @@ import categoriesRoutes from './routes/categories.js'
 import usersRoutes from './routes/users.js'
 
 const corsOptions = {
-  origin: 'https://deployment--tiny-sunburst-e4134c.netlify.app/',
+  origin: 'https://deployment--tiny-sunburst-e4134c.netlify.app',
   methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "DELETE"],
   preflightContinue: true,
   credentials: true
