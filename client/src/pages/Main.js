@@ -21,7 +21,7 @@ const Main = () => {
       <h1 className='text-2xl text-white font-bold'>See images here</h1>
       {<img
           className="max-w-36"
-          src={`http://localhost:5000/${image}`}
+          src={`https://image-upload-qate.onrender.com/${image}`}
           alt=""
         />}
     </main>
