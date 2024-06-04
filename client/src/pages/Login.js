@@ -30,13 +30,13 @@ const Login = () => {
     <main className='flex flex-col items-center gap-8'>
       <h2 className='text-2xl text-white font-bold'>Login</h2>
       <form className="flex gap-4 flex-col items-center" onSubmit={handleSubmit}>
-        <div>
+        <div className="w-full">
           <label>Username:</label>
           <input className="p-2 rounded-md border-2 cursor-pointer 
             border-gray-400 bg-gray-800 text-white w-full" 
             type="text" value={username} onChange={handleUsernameChange} />
         </div>
-        <div>
+        <div className="w-full">
           <label>Password:</label>
           <input className="p-2 rounded-md border-2 cursor-pointer 
             border-gray-400 bg-gray-800 text-white w-full"
