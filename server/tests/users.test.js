@@ -29,10 +29,10 @@ describe('after login', function () {
       });
   });
 
-  it('should check user', async function (done) {
-    const res = await authenticatedSession.get('/api/v1/users/')
+  it('should check user', async function () {
+    let res = await authenticatedSession.get('/api/v1/users/')
       .expect(200)
-    expect(res.body).toEqual({user: {username: 'asdt560', id: 2}})
+    await expect(res.body).toEqual({user: {username: 'asdt560', id: 2}})
   });
 
 });
