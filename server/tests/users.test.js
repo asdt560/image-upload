@@ -35,5 +35,11 @@ describe('after login', function () {
     await expect(res.body).toEqual({user: {username: 'asdt560', id: 2}})
   });
 
+  it('should log out', async function () {
+    let res = await authenticatedSession.delete('/api/v1/users/logout')
+      .expect(200)
+    await expect(res.text).toEqual("Logout successful")
+  })
+
 });
 
