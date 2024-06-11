@@ -4,12 +4,12 @@ import { getImages } from '../redux/images/imagesSlice';
 const Main = () => {
   const [image, setImage] = useState('');
 
+  const randomImage = useSelector((state) => state.sessionReducer.user)
   const dispatch = useDispatch();
 
   const getRandomImage = async () => {
-    const randomImage = await dispatch(getImages('random=true'))
-    console.log(randomImage)
-    setImage(randomImage.payload.body[0].filepath)
+    await dispatch(getImages('random=true'))
+    setImage(randomImage.body[0].filepath)
   }
 
   useEffect(() => {
