@@ -19,7 +19,6 @@ const Navbar = () => {
   }
 
   useEffect(() => {
-    console.log(user, 'user')
     getUserData()
   }, [])
   return (

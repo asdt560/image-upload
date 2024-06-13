@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getImages } from '../redux/images/imagesSlice';
 const Main = () => {
   const [image, setImage] = useState('');
-
-  const randomImage = useSelector((state) => state.sessionReducer.user)
   const dispatch = useDispatch();
 
   const getRandomImage = async () => {
-    await dispatch(getImages('random=true'))
-    setImage(randomImage.body[0].filepath)
+    const randomImage = await dispatch(getImages('random=true'))
+    console.log(randomImage)
+    setImage(randomImage.payload.body[0].filepath)
   }
 
   useEffect(() => {
     getRandomImage()
+    
   }, [])
 
   return (
@@ -21,7 +21,7 @@ const Main = () => {
       <h1 className='text-2xl text-white font-bold'>See images here</h1>
       {<img
           className="max-w-36"
-          src={`http://localhost:5000/${image}`}
+          src={`http://localhost:5000/${image}` || '#'}
           alt=""
         />}
     </main>

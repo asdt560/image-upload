@@ -11,6 +11,7 @@ const getImages = createAsyncThunk('images/getImage', async (params) => {
   })
     .then((resp) => resp.json())
     .then((result) => result);
+    console.log(resp)
   return resp;
 });
 
