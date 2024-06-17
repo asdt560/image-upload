@@ -15,7 +15,7 @@ const Navbar = () => {
   }
 
   const getUserData = async () => {
-    const data = await dispatch(checkSession())
+    await dispatch(checkSession())
   }
 
   useEffect(() => {

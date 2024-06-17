@@ -1,11 +1,27 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { addCategory } from '../redux/categories/categorySlice';
+import { useNavigate } from 'react-router-dom';
+import { checkSession } from '../redux/session/sessionSlice';
 const AddCategory = () => {
   const [category, setCategory] = useState('')
   const [privacy, setPrivacy] = useState(false)
 
   const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const user = useSelector((state) => state.sessionReducer.user)
+
+  const getUserData = async () => {
+    await dispatch(checkSession())
+    if(!user) {
+      navigate('/')
+    }
+    return;
+  }
+
+  useEffect(() => {
+    getUserData()
+  }, [])
 
   const handleCheckbox = (e) => {
     setPrivacy(e.currentTarget.checked)
@@ -14,10 +30,12 @@ const AddCategory = () => {
   const handleChange = (e) => {
     setCategory(`${e.target.value}`)
   }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     await dispatch(addCategory({category, privacy}));
   };
+
   return (
     <main className='flex flex-col items-center gap-8'>
       <h1 className='text-2xl text-white font-bold'>Create Category</h1>

@@ -1,13 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createSession } from '../redux/session/sessionSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkSession } from '../redux/session/sessionSlice';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const user = useSelector((state) => state.sessionReducer.user)
+
+  const getUserData = async () => {
+    await dispatch(checkSession())
+    if(user) {
+      navigate('/')
+    }
+    return;
+  }
+
+  useEffect(() => {
+    getUserData()
+  }, [])
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);

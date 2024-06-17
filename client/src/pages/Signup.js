@@ -1,9 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { checkSession } from '../redux/session/sessionSlice';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.sessionReducer.user)
+
+  const getUserData = async () => {
+    await dispatch(checkSession())
+    if(user) {
+      navigate('/')
+    }
+    return;
+  }
+
+  useEffect(() => {
+    getUserData()
+  }, [])
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
