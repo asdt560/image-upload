@@ -1,3 +1,4 @@
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useEffect } from 'react'
 import { Fragment } from 'react'
@@ -14,12 +15,10 @@ const Navbar = () => {
   }
 
   const getUserData = async () => {
-    const data = await dispatch(checkSession())
-    console.log(data.payload.user)
+    await dispatch(checkSession())
   }
 
   useEffect(() => {
-    console.log(user, 'user')
     getUserData()
   }, [])
   return (

@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
       const randomImage = `
       SELECT * FROM images 
       INNER JOIN categories ON images.category = categories.id 
-      WHERE categories.private = f 
+      WHERE categories.private = 'f' 
       ORDER BY RANDOM() LIMIT 1`
       pg.any(randomImage)
         .then((result) => {

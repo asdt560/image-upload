@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getImages } from '../redux/images/imagesSlice';
 const Main = () => {
   const [image, setImage] = useState('');
-
   const dispatch = useDispatch();
 
   const getRandomImage = async () => {
@@ -14,6 +13,7 @@ const Main = () => {
 
   useEffect(() => {
     getRandomImage()
+    
   }, [])
 
   return (
@@ -21,7 +21,7 @@ const Main = () => {
       <h1 className='text-2xl text-white font-bold'>See images here</h1>
       {<img
           className="max-w-36"
-          src={`https://image-upload-qate.onrender.com/${image}`}
+          src={`https://image-upload-qate.onrender.com/${image}` || '#'}
           alt=""
         />}
     </main>
