@@ -1,6 +1,21 @@
 import 'dotenv/config'
 import pg from '../db.js'
 import express from 'express'
+import { body, validationResult } from 'express-validator'
+
+export const loginValidator = [
+  body('email', 'Invalid does not Empty').not().isEmpty(),
+  body('email', 'Invalid email').isEmail(),
+  body('password', 'Invalid empty password').not().isEmpty(),
+]
+
+export const signupValidator = [
+  body('email', 'Invalid does not Empty').not().isEmpty(),
+  body('email', 'Invalid email').isEmail(),
+  body('username', 'Invalid empty username').not().isEmpty(),
+  body('password', 'Invalid empty password').not().isEmpty(),
+]
+
 const router = express.Router();
 
 const checkIfEmailExists = (email) => {
@@ -24,11 +39,10 @@ const checkIfUserExists = (username) => {
 }
 
 // User Signup Route
-router.post('/signup', async (req, res) => {
-  if (!req.body.username || !req.body.password || !req.body.email) {
-    console.log(req.body)
-    res.status(400);
-    res.send("Invalid details!");
+router.post('/signup', signupValidator, async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    res.status(422).json({errors: errors.array()})
   } else {
     console.log(req.body)
     const invalidUser = await checkIfUserExists(req.body.username)
@@ -63,11 +77,10 @@ router.post('/signup', async (req, res) => {
 });
 
 // User Log In Route
-router.post('/login', async (req, res) => {
-  if (!req.body.username || !req.body.password) {
-    console.log(req.body)
-    res.status(400);
-    res.send("Invalid details!");
+router.post('/login', loginValidator, async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    res.status(422).json({errors: errors.array()})
   } else {
     console.log(req.body)
     const invalidUser = await checkIfUserExists(req.body.username)
