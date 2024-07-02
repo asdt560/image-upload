@@ -1,7 +1,6 @@
 import express from "express";
 import 'dotenv/config'
 import pg from '../db.js'
-import fs from 'fs'
 
 
 const router = express.Router()

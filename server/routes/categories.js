@@ -1,10 +1,20 @@
 import express from "express";
 import fs from "fs";
 import pg from '../db.js'
+import { body, validationResult } from 'express-validator'
+
+const categoryValidator = [
+  body('category').not().isEmpty()
+]
 
 const router = express.Router()
 
-router.post("/", async (req, res) => {
+router.post("/", categoryValidator, async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    res.status(422).json({errors: errors.array()})
+    return;
+  }
   try {
     if(!req.session.user) {
       res.send({
