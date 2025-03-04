@@ -8,12 +8,13 @@ const Main = () => {
   const getRandomImage = async () => {
     const randomImage = await dispatch(getImages('random=true'))
     console.log(randomImage)
-    setImage(randomImage.payload.body[0].filepath)
+    if(randomImage.payload) {
+      setImage(randomImage.payload.body[0].filepath)
+    }
   }
 
   useEffect(() => {
-    getRandomImage()
-    
+    getRandomImage() 
   }, [])
 
   return (
