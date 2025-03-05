@@ -2,6 +2,9 @@ import express from "express";
 import fs from "fs";
 import pg from '../db.js'
 import { body, validationResult } from 'express-validator'
+import pgPromise from "pg-promise";
+
+const PQ = pgPromise.ParameterizedQuery
 
 const categoryValidator = [
   body('category').not().isEmpty()
@@ -90,12 +93,14 @@ router.get("/:id", (req, res) => {
   console.log(req.params)
   let categoryById;
   if(req.session.user) {
-    categoryById = `SELECT * FROM categories WHERE id = ${req.params.id} IF created_by = ${req.session.user.id}`
+    categoryById = `SELECT 1 FROM categories WHERE id = ${req.params.id} AND created_by = ${req.session.user.id} OR private = false`
   } else {
-    categoryById = `SELECT * FROM categories WHERE id = ${req.params.id} IF private = f`
+    categoryById = new PQ({text: `SELECT 1 FROM categories WHERE id = $1 AND private = false`, values: [req.params.id]}) 
   }
+  console.log(categoryById)
   pg.any(categoryById)
     .then((result) => {
+      console.log(result)
       res.send({
         status: "success",
         message: "Category sent",
