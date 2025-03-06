@@ -28,15 +28,17 @@ router.post("/", categoryValidator, async (req, res) => {
     let folder = req.body.category
     console.log(req.body)
     if (!fs.existsSync(`./images/${folder}`)) {
-      const insertCategory = `
-        INSERT INTO categories (categoryName, created_at, private, creator_id)
-        VALUES (
-          '${folder}',
-          current_timestamp,
-          '${req.body.privacy}',
-          ${req.session.user.id}
-        )
-      `
+      const insertCategory = new PQ({
+        text: `INSERT INTO categories (categoryName, created_at, private, creator_id)
+                 VALUES (
+                    '${folder}',
+                    current_timestamp,
+                    '${req.body.privacy}',
+                    ${req.session.user.id}
+                 )
+                `, 
+        values: [folder, current_timestamp, req.body.privacy, req.session.user.id]
+      })
       pg.none(insertCategory)
         .then(() => {
           console.log('Entry created successfully');
@@ -64,7 +66,7 @@ router.get("/", async (req, res) => {
   try {
     let allCategories;
     if(req.session.user) {
-      allCategories = `SELECT * FROM categories WHERE creator_id = ${req.session.user.id} OR private = false`
+      allCategories = new PQ({text: `SELECT * FROM categories WHERE creator_id = $1 OR private = false`, values: [req.session.user.id]})
     } else {
       allCategories = `SELECT * FROM categories WHERE private = false`
     }
@@ -93,7 +95,7 @@ router.get("/:id", (req, res) => {
   console.log(req.params)
   let categoryById;
   if(req.session.user) {
-    categoryById = `SELECT 1 FROM categories WHERE id = ${req.params.id} AND created_by = ${req.session.user.id} OR private = false`
+    categoryById = new PQ({text: `SELECT 1 FROM categories WHERE id = $1 AND created_by = $2 OR private = false`, values: [req.params.id, req.session.user.id]})
   } else {
     categoryById = new PQ({text: `SELECT 1 FROM categories WHERE id = $1 AND private = false`, values: [req.params.id]}) 
   }
