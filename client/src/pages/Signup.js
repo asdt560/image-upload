@@ -55,22 +55,21 @@ const Signup = () => {
     <main className='flex flex-col items-center gap-8'>
       <h2 className='text-2xl text-white font-bold'>Signup</h2>
       <form className="flex gap-4 flex-col items-center" onSubmit={handleSubmit}>
-        <label>
+        <label className="w-full">
           Email:
           <input 
             className="p-2 rounded-md border-2 cursor-pointer 
             border-gray-400 bg-gray-800 text-white w-full"
             type="email" value={email} onChange={handleEmailChange} />
         </label>
-        <label>
+        <label className="w-full">
           Username:
           <input 
             className="p-2 rounded-md border-2 cursor-pointer 
             border-gray-400 bg-gray-800 text-white w-full"
             type="text" value={username} onChange={handleUsernameChange} />
         </label>
-        <br />
-        <label>
+        <label className="w-full">
           Password:
           <input 
             className="p-2 rounded-md border-2 cursor-pointer 
