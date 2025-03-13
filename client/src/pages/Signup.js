@@ -69,7 +69,6 @@ const Signup = () => {
             border-gray-400 bg-gray-800 text-white w-full"
             type="text" value={username} onChange={handleUsernameChange} />
         </label>
-        <br />
         <label className="w-full">
           Password:
           <input 

@@ -21,8 +21,7 @@ const Category = () => {
   const getCategoryData = async () => {
     const categoryData = await dispatch(getCategoryById(categoryId))
     console.log(categoryData)
-    setCategory(categoryData.payload.data.category[0])
-    
+    if(categoryData.payload) setCategory(categoryData.payload.data.category[0]);
   }
 
   useEffect(() => {

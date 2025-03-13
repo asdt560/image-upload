@@ -1,7 +1,9 @@
 import express from "express";
 import 'dotenv/config'
 import pg from '../db.js'
+import pgPromise from "pg-promise";
 
+const PQ = pgPromise.ParameterizedQuery
 
 const router = express.Router()
 
@@ -32,7 +34,7 @@ router.get("/", async (req, res) => {
 })
 
 router.get("/:categoryId", (req, res) => {
-  const imagesPerCategory = `SELECT * FROM images WHERE category = ${req.params.categoryId}`
+  const imagesPerCategory = new PQ({text: `SELECT * FROM images WHERE category = $1`, values: [req.params.categoryId]}) 
   pg.any(imagesPerCategory)
   .then((result) => {
     res.send({
@@ -59,15 +61,15 @@ router.post("/", async (req, res) => {
       let path = `./imagefolder/${req.body.category}/${req.files.files.name}`
       file.mv(path)
 
-      const insertItem = `
+      const insertItem = new PQ({text: `
         INSERT INTO images (category, upload_id, created_at, filepath)
         VALUES (
-          ${req.body.category},
-          ${req.session.user.id},
+          $1,
+          $2,
           current_timestamp, 
-          '${path}'
+          $3
         )
-      `
+      `, values: [req.body.category, req.session.user.id, path]})
       pg.none(insertItem)
         .then(() => {
           res.send({

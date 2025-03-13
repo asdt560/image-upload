@@ -1,10 +1,28 @@
 import 'dotenv/config'
 import pg from '../db.js'
 import express from 'express'
+import { body, validationResult } from 'express-validator'
+import pgPromise from "pg-promise";
+
+const PQ = pgPromise.ParameterizedQuery
+
+export const loginValidator = [
+  body('email', 'Invalid does not Empty').not().isEmpty(),
+  body('email', 'Invalid email').isEmail(),
+  body('password', 'Invalid empty password').not().isEmpty(),
+]
+
+export const signupValidator = [
+  body('email', 'Invalid does not Empty').not().isEmpty(),
+  body('email', 'Invalid email').isEmail(),
+  body('username', 'Invalid empty username').not().isEmpty(),
+  body('password', 'Invalid empty password').not().isEmpty(),
+]
+
 const router = express.Router();
 
 const checkIfEmailExists = (email) => {
-  const checkEmail = `SELECT * FROM users WHERE email = '${email}'`
+  const checkEmail = new PQ({text: `SELECT * FROM users WHERE email = $1`, values: [email]})
   let emailExists = pg.any(checkEmail)
     .then((result) => {
       if (result.length) return true;
@@ -14,7 +32,7 @@ const checkIfEmailExists = (email) => {
 }
 
 const checkIfUserExists = (username) => {
-  const checkUserName = `SELECT * FROM users WHERE username = '${username}'`
+  const checkUserName = new PQ({text: `SELECT * FROM users WHERE username = $1`, values: [username]})
   let userExists = pg.any(checkUserName)
     .then((result) => {
       if (result.length) return true;
@@ -24,10 +42,10 @@ const checkIfUserExists = (username) => {
 }
 
 // User Signup Route
-router.post('/signup', async (req, res) => {
-  if (!req.body.username || !req.body.password || !req.body.email) {
-    res.status(400);
-    res.send("Invalid details!");
+router.post('/signup', signupValidator, async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    res.status(422).json({errors: errors.array()})
   } else {
     const invalidUser = await checkIfUserExists(req.body.username)
     if (invalidUser) {
@@ -37,13 +55,13 @@ router.post('/signup', async (req, res) => {
       if (invalidEmail) {
         res.status(400).send("Email Already Exists!")
       } else {
-        const insertUser = `INSERT INTO users (username, created_at, email, password)
+        const insertUser = new PQ({text: `INSERT INTO users (username, created_at, email, password)
           VALUES (
-            '${req.body.username}', 
+            $1, 
             current_timestamp, 
-            '${req.body.email}', 
-            crypt('${req.body.password}', gen_salt('bf'))
-          )`
+            $2', 
+            crypt($3, gen_salt('bf'))
+          )`, values: [req.body.username, req.body.email, req.body.password]})
         pg.any(insertUser)
           .then((result) => {
             res.send({
@@ -60,18 +78,18 @@ router.post('/signup', async (req, res) => {
 });
 
 // User Log In Route
-router.post('/login', async (req, res) => {
-  if (!req.body.username || !req.body.password) {
-    res.status(400);
-    res.send("Invalid details!");
+router.post('/login', loginValidator, async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    res.status(422).json({errors: errors.array()})
   } else {
     const invalidUser = await checkIfUserExists(req.body.username)
     if (!invalidUser) {
       res.status(400).send("User Does Not Exist!")
     } else {
-      const checkPassword = `SELECT * FROM users
-        WHERE username = '${req.body.username}' 
-        AND password = crypt('${req.body.password}', password);`
+      const checkPassword = new PQ({text: `SELECT * FROM users
+        WHERE username = $1 
+        AND password = crypt($2, password);`, values: [req.body.username, req.body.password]})
         console.log(checkPassword)
       pg.any(checkPassword)
         .then((result) => {
