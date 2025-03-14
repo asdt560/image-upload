@@ -75,7 +75,7 @@ Organized as effectively two separate projects stored in one repository. Server 
 
 ## Usage
 
-Client and server must also be started separately.
+Client and server must also be started separately. Use http://127.0.0.1:3000/ when running locally to avoid CORS problems.
 
 ## Contributing
 
