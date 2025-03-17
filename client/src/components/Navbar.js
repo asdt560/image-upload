@@ -23,13 +23,9 @@ const Navbar = () => {
   }, [])
   return (
     <nav className="flex border-b-4 border-white justify-between bg-gray-900">
-      <div className="bg-white text-blue text-lg font-sans font-bold py-2 px-8">
-        logo
-      </div>
-      <NavLink
-        className="py-2 px-8 pointer font-bold text-lg text-white font-sans hover:bg-white hover:text-gray-900"
-        to="/"
-      >Main</NavLink>
+      <NavLink className="bg-white text-blue text-lg font-sans font-bold py-2 px-8" to="/">
+        placeholder
+      </NavLink>
       <NavLink
         className="py-2 px-8 pointer font-bold text-lg text-white font-sans hover:bg-white hover:text-gray-900"
         to="/categories"
