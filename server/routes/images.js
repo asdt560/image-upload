@@ -68,14 +68,15 @@ router.post("/", async (req, res) => {
       file.mv(path)
 
       const insertItem = new PQ({text: `
-        INSERT INTO images (category, upload_id, created_at, filepath)
+        INSERT INTO images (img_name, category, upload_id, created_at, filepath)
         VALUES (
+          $4,
           $1,
           $2,
           current_timestamp, 
           $3
         )
-      `, values: [req.body.category, req.session.user.id, path]})
+      `, values: [req.body.category, req.session.user.id, path, req.body.img_name]})
       pg.none(insertItem)
         .then(() => {
           console.log('Entry created successfully');

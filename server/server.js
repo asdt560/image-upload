@@ -76,6 +76,7 @@ const createCategoriesTable =`
 const createImagesTable = `
   CREATE TABLE IF NOT EXISTS images(
     id serial PRIMARY KEY,
+    img_name text NOT NULL,
     category int references categories(id),
     upload_id int references users(id),
     created_at timestamp,

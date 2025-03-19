@@ -34,6 +34,7 @@ const Upload = () => {
   const onSubmit = async (data) => {
     const formData = new FormData();
     console.log(data)
+    formData.append("img_name", data.img_name)
     formData.append("category", data.category)
     formData.append("files", data.files[0]);
     const res = await dispatch(addImage(formData))
@@ -57,6 +58,11 @@ const Upload = () => {
             </option>
           ))}
         </select>
+        <input
+          className="block w-full text-sm text-white border rounded-md 
+          cursor-pointer bg-gray-700 border-gray-600 placeholder-gray-400
+          file:bg-gray-900 file:text-white file:border-0 file:p-2" 
+          type="text" {...register("img_name")} required />
         <input 
           className="block w-full text-sm text-white border rounded-md 
           cursor-pointer bg-gray-700 border-gray-600 placeholder-gray-400
