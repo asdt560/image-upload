@@ -9,7 +9,7 @@ const Main = () => {
     const randomImage = await dispatch(getImages('random=true'))
     console.log(randomImage)
     if(randomImage.payload) {
-      setImage(randomImage.payload.body[0].filepath)
+      setImage(randomImage.payload.body[0])
     }
   }
 
@@ -20,11 +20,12 @@ const Main = () => {
   return (
     <main className='flex flex-col items-center gap-8'>
       <h1 className='text-2xl text-white font-bold'>See images here</h1>
-      {<img
+      <img
           className="max-w-36"
-          src={`http://localhost:5000/${image}` || '#'}
+          src={`http://localhost:5000/${image.filepath}` || '#'}
           alt=""
-        />}
+        />
+      <p className='text-1xl text-white font-bold'>{image.img_name}</p>
     </main>
   )
 }
