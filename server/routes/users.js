@@ -60,7 +60,7 @@ router.post('/signup', signupValidator, async (req, res) => {
           VALUES (
             $1, 
             current_timestamp, 
-            $2', 
+            $2, 
             crypt($3, gen_salt('bf'))
           )`, values: [req.body.username, req.body.email, req.body.password]})
         pg.any(insertUser)
@@ -81,37 +81,32 @@ router.post('/signup', signupValidator, async (req, res) => {
 
 // User Log In Route
 router.post('/login', loginValidator, async (req, res) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    res.status(422).json({errors: errors.array()})
+  console.log(req.body)
+  const invalidUser = await checkIfUserExists(req.body.username)
+  if (!invalidUser) {
+    res.status(400).send("User Does Not Exist!")
   } else {
-    console.log(req.body)
-    const invalidUser = await checkIfUserExists(req.body.username)
-    if (!invalidUser) {
-      res.status(400).send("User Does Not Exist!")
-    } else {
-      const checkPassword = new PQ({text: `SELECT * FROM users
-        WHERE username = $1 
-        AND password = crypt($2, password);`, values: [req.body.username, req.body.password]})
-        console.log(checkPassword)
-      pg.any(checkPassword)
-        .then((result) => {
-          if (result.length) {
-            req.session.user = {username: result[0].username, id: result[0].id};
-            console.log(req.session)
-            res.send({
-              status: "success",
-              logged: true,
-              user: req.session.user,
-            })
-          } else {
-            res.status(400).send("Password Incorrect!")
-          }
-        })
-        .catch((err) => {
-          console.error(err)
-        })
-    }
+    const checkPassword = new PQ({text: `SELECT * FROM users
+      WHERE username = $1 
+      AND password = crypt($2, password);`, values: [req.body.username, req.body.password]})
+      console.log(checkPassword)
+    pg.any(checkPassword)
+      .then((result) => {
+        if (result.length) {
+          req.session.user = {username: result[0].username, id: result[0].id};
+          console.log(req.session)
+          res.send({
+            status: "success",
+            logged: true,
+            user: req.session.user,
+          })
+        } else {
+          res.status(400).send("Password Incorrect!")
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+      })
   }
 });
 
