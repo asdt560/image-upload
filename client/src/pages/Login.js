@@ -35,7 +35,7 @@ const Login = () => {
     e.preventDefault();
     const resp = await dispatch(createSession({username, password}))
     console.log(resp)
-    if(resp.payload.logged) {
+    if(resp.payload?.logged) {
       navigate('/')
     }
   };

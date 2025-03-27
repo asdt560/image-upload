@@ -8,7 +8,7 @@ const Main = () => {
   const getRandomImage = async () => {
     const randomImage = await dispatch(getImages('random=true'))
     console.log(randomImage)
-    if(randomImage.payload.body[0]) {
+    if(randomImage.payload?.body[0]) {
       setImage(randomImage.payload.body[0])
     }
   }
