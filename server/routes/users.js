@@ -68,6 +68,7 @@ router.post('/signup', signupValidator, async (req, res) => {
             console.log('Entry created successfully', result);
             res.send({
               status: "success",
+              success: true,
               message: "User Created",
             });
           })

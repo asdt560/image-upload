@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { checkSession } from '../redux/session/sessionSlice';
+import { createRegistration } from '../redux/registration/registrationSlice';
+import { createSession } from '../redux/session/sessionSlice';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -9,19 +10,6 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.sessionReducer.user)
-
-  const getUserData = async () => {
-    await dispatch(checkSession())
-    if(user) {
-      navigate('/')
-    }
-    return;
-  }
-
-  useEffect(() => {
-    getUserData()
-  }, [])
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -35,20 +23,16 @@ const Signup = () => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const response = await fetch('http://localhost:5000/api/v1/users/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email,
-        username,
-        password,
-      }),
-    });
-    return response.json();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const signup = await dispatch(createRegistration({email, username, password}))
+    console.log(signup)
+    if(signup.payload?.success) {
+      const login = await dispatch(createSession({username, password}))
+      if(login.payload?.logged) {
+        navigate('/')
+      }
+    }
   };
 
   return (
