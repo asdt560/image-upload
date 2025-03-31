@@ -32,7 +32,7 @@ const Category = () => {
   return (
     <main className="flex flex-col items-center gap-8">
       <h1 className='text-2xl text-white font-bold'>Shows images from {category.categoryname}</h1>
-      <div>
+      <div className="flex flex-col items-center">
         {images.map((image) => (
           <div className="flex flex-col items-center">
             <p className='text-1xl text-white font-bold'>{image.img_name}</p>
