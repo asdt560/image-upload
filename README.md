@@ -73,14 +73,16 @@
 
 Organized as effectively two separate projects stored in one repository. Server packages and Client packages must be installed separately.
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Usage
 
 Client and server must also be started separately. Use http://127.0.0.1:3000/ when running locally to avoid CORS problems.
 
-## Contributing
-
-Guidelines for contributing to your project and how others can get involved.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## License
 
-Information about the license for your project.
+This project is [MIT](./LICENSE) licensed.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
