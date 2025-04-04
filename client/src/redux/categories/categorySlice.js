@@ -9,7 +9,6 @@ const getCategories = createAsyncThunk('categories/getCategory', async () => {
     credentials: "include",
   })
     .then((resp) => resp.json())
-    .then((result) => result)
   console.log(resp)
   return resp;
 });
@@ -24,7 +23,6 @@ const getCategoryById = createAsyncThunk('categories/getCategoryById', async (id
     credentials: "include",
   })
     .then((resp) => resp.json())
-    .then((result) => result)
   console.log(resp)
   return resp;
 })
