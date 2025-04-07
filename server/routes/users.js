@@ -50,11 +50,11 @@ router.post('/signup', signupValidator, async (req, res) => {
     console.log(req.body)
     const invalidUser = await checkIfUserExists(req.body.username)
     if (invalidUser) {
-      res.status(400).send("User Already Exists!")
+      res.status(400).json({message: "User Already Exists"})
     } else {
       const invalidEmail = await checkIfEmailExists(req.body.email)
       if (invalidEmail) {
-        res.status(400).send("Email Already Exists!")
+        res.status(400).json({message: "Email Already Exists"})
       } else {
         const insertUser = new PQ({text: `INSERT INTO users (username, created_at, email, password)
           VALUES (
@@ -74,6 +74,7 @@ router.post('/signup', signupValidator, async (req, res) => {
           })
           .catch((err) => {
             console.error('Error inserting', err);
+            res.status(400).json(err);
           })
       }
     }

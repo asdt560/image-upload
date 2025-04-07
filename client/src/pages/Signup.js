@@ -8,6 +8,11 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({
+    email: null,
+    user: null,
+    password: null
+  })
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -32,6 +37,12 @@ const Signup = () => {
       if(login.payload?.logged) {
         navigate('/')
       }
+    } else {
+      if(signup.payload?.message.split(' ')[0] === "User") {
+        setErrors((prevState) => ({...prevState, user: signup.payload?.message}))
+      } else if(signup.payload?.message.split(' ')[0] === "Email") {
+        setErrors((prevState) => ({...prevState, email: signup.payload?.message}))
+      }
     }
   };
 
@@ -46,6 +57,7 @@ const Signup = () => {
             border-gray-400 bg-gray-800 text-white w-full"
             type="email" value={email} onChange={handleEmailChange} />
         </label>
+        {errors.email && <p className="text-red text-xs">{errors.email}</p>}
         <label className="w-full text-white font-bold">
           Username:
           <input 
@@ -53,6 +65,7 @@ const Signup = () => {
             border-gray-400 bg-gray-800 text-white w-full"
             type="text" value={username} onChange={handleUsernameChange} />
         </label>
+        {errors.user && <p className="text-red text-xs">{errors.user}</p>}
         <label className="w-full text-white font-bold">
           Password:
           <input 
