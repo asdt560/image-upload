@@ -86,7 +86,7 @@ router.post('/login', loginValidator, async (req, res) => {
   console.log(req.body)
   const invalidUser = await checkIfUserExists(req.body.username)
   if (!invalidUser) {
-    res.status(400).send("User Does Not Exist!")
+    res.status(400).json({message: "User Does Not Exist!"})
   } else {
     const checkPassword = new PQ({text: `SELECT * FROM users
       WHERE username = $1 
@@ -103,7 +103,7 @@ router.post('/login', loginValidator, async (req, res) => {
             user: req.session.user,
           })
         } else {
-          res.status(400).send("Password Incorrect!")
+          res.status(400).json({message: "Password Incorrect!"})
         }
       })
       .catch((err) => {
