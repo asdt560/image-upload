@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-const createSession = createAsyncThunk('session/createSession', async(obj) => {
+const createSession = createAsyncThunk('session/createSession', async(obj, { rejectWithValue }) => {
   const response = await fetch('http://127.0.0.1:5000/api/v1/users/login', {
       method: 'POST',
       headers: {
@@ -8,8 +8,14 @@ const createSession = createAsyncThunk('session/createSession', async(obj) => {
       },
       body: JSON.stringify(obj),
       credentials: 'include'
-    })
-    .then((response) => response.json())
+    }).then(async (response) => {
+      if(response.status !== 200) {
+        let error = await response.text().then((error) => JSON.parse(error))
+        console.log(error)
+        return rejectWithValue(error);
+      }
+      return response;
+    }).then((response) => response.json())
   console.log(response)
   return response
 })
