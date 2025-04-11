@@ -7,6 +7,10 @@ import { checkSession } from '../redux/session/sessionSlice';
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] =useState({
+    user: null,
+    password: null
+  })
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const user = useSelector((state) => state.sessionReducer.user)
@@ -37,6 +41,12 @@ const Login = () => {
     console.log(resp)
     if(resp.payload?.logged) {
       navigate('/')
+    } else {
+      if(resp.payload?.message.split(' ')[0] === "User") {
+        setErrors((prevState) => ({...prevState, user: resp.payload?.message}))
+      } else {
+        setErrors((prevState) => ({...prevState, password: resp.payload?.message}))
+      }
     }
   };
 
@@ -49,12 +59,14 @@ const Login = () => {
           <input className="p-2 rounded-md border-2 cursor-pointer 
             border-gray-400 bg-gray-800 text-white w-full" 
             type="text" value={username} onChange={handleUsernameChange} />
+          {errors.user && <p className="text-red text-xs">{errors.user}</p>}
         </div>
         <div>
           <label className='text-white font-bold'>Password:</label>
           <input className="p-2 rounded-md border-2 cursor-pointer 
             border-gray-400 bg-gray-800 text-white w-full"
             type="password" value={password} onChange={handlePasswordChange} />
+          {errors.password && <p className="text-red text-xs">{errors.password}</p>}
         </div>
         <button className="w-full p-2 border-4 border-white border-double 
           rounded-md text-white font-bold text-lg bg-gray-700" 
