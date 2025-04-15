@@ -15,7 +15,7 @@ const createSession = createAsyncThunk('session/createSession', async(obj, { rej
         return rejectWithValue(error);
       }
       return response;
-    }).then((response) => response.json())
+    }).then((response) => response)
   console.log(response)
   return response
 })

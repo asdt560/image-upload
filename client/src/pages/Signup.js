@@ -38,6 +38,7 @@ const Signup = () => {
         navigate('/')
       }
     } else {
+      setErrors({email: null, user: null, password: null})
       if(signup.payload?.message.split(' ')[0] === "User") {
         setErrors((prevState) => ({...prevState, user: signup.payload?.message}))
       } else if(signup.payload?.message.split(' ')[0] === "Email") {
@@ -57,7 +58,7 @@ const Signup = () => {
             border-gray-400 bg-gray-800 text-white w-full"
             type="email" value={email} onChange={handleEmailChange} />
         </label>
-        {errors.email && <p className="text-red text-xs">{errors.email}</p>}
+        {errors.email && <p className="text-red-500 p-1 text-xs">{errors.email}</p>}
         <label className="w-full text-white font-bold">
           Username:
           <input 
@@ -65,7 +66,7 @@ const Signup = () => {
             border-gray-400 bg-gray-800 text-white w-full"
             type="text" value={username} onChange={handleUsernameChange} />
         </label>
-        {errors.user && <p className="text-red text-xs">{errors.user}</p>}
+        {errors.user && <p className="text-red-500 p-1 text-xs">{errors.user}</p>}
         <label className="w-full text-white font-bold">
           Password:
           <input 
