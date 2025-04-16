@@ -33,7 +33,10 @@ const AddCategory = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(addCategory({category, privacy}));
+    const resp = await dispatch(addCategory({category, privacy}));
+    if(resp.payload?.message) {
+      navigate('/')
+    }
   };
 
   return (
