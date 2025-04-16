@@ -54,16 +54,16 @@ const Signup = () => {
         <label className="w-full text-white font-bold">
           Email:
           <input 
-            className="p-2 rounded-md border-2 cursor-pointer 
-            border-gray-400 bg-gray-800 text-white w-full"
+            className={`p-2 rounded-md border-2 cursor-pointer 
+              ${errors.email ? "border-red-400 text-red-500" : "bg-gray-800 text-white"} border-gray-400  w-full`}
             type="email" value={email} onChange={handleEmailChange} />
         </label>
         {errors.email && <p className="text-red-500 p-1 text-xs">{errors.email}</p>}
         <label className="w-full text-white font-bold">
           Username:
           <input 
-            className="p-2 rounded-md border-2 cursor-pointer 
-            border-gray-400 bg-gray-800 text-white w-full"
+            className={`p-2 rounded-md border-2 cursor-pointer 
+              ${errors.user ? "border-red-400 text-red-500" : "bg-gray-800 text-white"} border-gray-400  w-full`}
             type="text" value={username} onChange={handleUsernameChange} />
         </label>
         {errors.user && <p className="text-red-500 p-1 text-xs">{errors.user}</p>}

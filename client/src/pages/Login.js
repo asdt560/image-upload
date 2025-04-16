@@ -57,15 +57,15 @@ const Login = () => {
       <form className="flex gap-4 flex-col items-center" onSubmit={handleSubmit}>
         <div>
           <label className='text-white font-bold'>Username:</label>
-          <input className="p-2 rounded-md border-2 cursor-pointer 
-            border-gray-400 bg-gray-800 text-white w-full" 
+          <input className={`p-2 rounded-md border-2 cursor-pointer 
+          ${errors.user ? "border-red-400 text-red-500" : "bg-gray-800 text-white"} border-gray-400  w-full`}
             type="text" value={username} onChange={handleUsernameChange} />
           {errors.user && <p className="text-red-500 p-1 text-xs">{errors.user}</p>}
         </div>
         <div>
           <label className='text-white font-bold'>Password:</label>
-          <input className="p-2 rounded-md border-2 cursor-pointer 
-            border-gray-400 bg-gray-800 text-white w-full"
+          <input className={`p-2 rounded-md border-2 cursor-pointer 
+          ${errors.password ? "border-red-400 text-red-500" : "bg-gray-800 text-white"} border-gray-400  w-full`}
             type="password" value={password} onChange={handlePasswordChange} />
           {errors.password && <p className="text-red-500 p-1 text-xs">{errors.password}</p>}
         </div>
