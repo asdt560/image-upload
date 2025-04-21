@@ -58,11 +58,12 @@ const Upload = () => {
             </option>
           ))}
         </select>
-        <input
-          className="block w-full text-sm text-white border rounded-md 
-          cursor-pointer bg-gray-700 border-gray-600 placeholder-gray-400
-          file:bg-gray-900 file:text-white file:border-0 file:p-2" 
-          type="text" {...register("img_name")} required />
+        <label className="w-full text-white font-bold">
+          Password:
+          <input className="p-2 rounded-md border-2 cursor-pointer 
+            border-gray-400 bg-gray-800 text-white w-full"
+            type="text" {...register("img_name")} required />
+        </label>
         <input 
           className="block w-full text-sm text-white border rounded-md 
           cursor-pointer bg-gray-700 border-gray-600 placeholder-gray-400

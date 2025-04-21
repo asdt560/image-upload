@@ -68,8 +68,9 @@ router.get("/", async (req, res) => {
     if(req.session.user) {
       allCategories = new PQ({text: `SELECT * FROM categories WHERE creator_id = $1 OR private = false`, values: [req.session.user.id]})
     } else {
-      allCategories = `SELECT * FROM categories WHERE private = false`
+      allCategories = new PQ({text: `SELECT * FROM categories WHERE private = false`})
     }
+    console.log(allCategories)
     pg.any(allCategories)
       .then((result) => {
         console.log(result)
