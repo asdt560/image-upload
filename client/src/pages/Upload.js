@@ -59,7 +59,7 @@ const Upload = () => {
           ))}
         </select>
         <label className="w-full text-white font-bold">
-          Password:
+          Image Name:
           <input className="p-2 rounded-md border-2 cursor-pointer 
             border-gray-400 bg-gray-800 text-white w-full"
             type="text" {...register("img_name")} required />

@@ -25,38 +25,46 @@ router.post("/", categoryValidator, async (req, res) => {
         message: "Not logged in",
       });
     }
-    let folder = req.body.category
     console.log(req.body)
-    if (!fs.existsSync(`./images/${folder}`)) {
-      const insertCategory = new PQ({
-        text: `INSERT INTO categories (categoryName, created_at, private, creator_id)
-                 VALUES (
-                    '${folder}',
-                    current_timestamp,
-                    '${req.body.privacy}',
-                    ${req.session.user.id}
-                 )
-                `, 
-        values: [folder, current_timestamp, req.body.privacy, req.session.user.id]
-      })
-      pg.none(insertCategory)
-        .then(() => {
-          console.log('Entry created successfully');
-          res.send({
-            status: "success",
-            message: "Category created",
-            data: {
-              name: folder
-            },
-          });
+    let exists = false;
+    pg.one(new PQ(
+      {
+        text: `SELECT EXISTS(SELECT 1 FROM categories WHERE categoryName=$1)`,
+        values: [req.body.category]
+      }
+    )).then((result) => {
+      if (!result.exists) {
+        const insertCategory = new PQ({
+          text: `INSERT INTO categories (categoryName, created_at, private, creator_id)
+                   VALUES (
+                      $1,
+                      current_timestamp,
+                      $2,
+                      $3
+                   )
+                  `, 
+          values: [req.body.category, req.body.privacy, req.session.user.id]
         })
-        .catch((err) => console.error('Error inserting', err))
-    } else {
-      res.send({
-        status: "failed",
-        message: "Category already exists",
-      });
-    }
+        console.log(insertCategory)
+        pg.none(insertCategory)
+          .then(() => {
+            console.log('Entry created successfully');
+            res.send({
+              status: "success",
+              message: "Category created",
+              data: {
+                name: req.body.category
+              },
+            });
+          })
+          .catch((err) => console.error('Error inserting', err))
+      } else {
+        res.send({
+          status: "failed",
+          message: "Category already exists",
+        });
+      }
+    })
   } catch (err) {
     res.status(500).send(err);
   }
