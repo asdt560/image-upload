@@ -36,6 +36,7 @@ const Category = () => {
         {images.map((image) => (
           <div className="flex flex-col items-center">
             <p className='text-1xl text-white font-bold'>{image.img_name}</p>
+            <p className='text-1xl text-white font-bold'>{image.created_at}</p>
             <img className="w-full rounded-sm" key={image.id} alt='' src={`http://localhost:5000/${image.filepath}`}/>
           </div>
         ))}
