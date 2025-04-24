@@ -104,7 +104,7 @@ router.get("/:id", (req, res) => {
   console.log(req.params)
   let categoryById;
   if(req.session.user) {
-    categoryById = new PQ({text: `SELECT 1 FROM categories WHERE id = $1 AND created_by = $2 OR private = false`, values: [req.params.id, req.session.user.id]})
+    categoryById = new PQ({text: `SELECT 1 FROM categories WHERE id = $1 AND creator_id = $2 OR private = false`, values: [req.params.id, req.session.user.id]})
   } else {
     categoryById = new PQ({text: `SELECT 1 FROM categories WHERE id = $1 AND private = false`, values: [req.params.id]}) 
   }
