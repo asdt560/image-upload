@@ -100,4 +100,25 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.get("/search", (req, res) => {
+  console.log(req.params)
+  const searchImages = new PQ({
+    text: `SELECT * FROM images 
+      INNER JOIN categories ON images.category = categories.id 
+      WHERE document LIKE '%$1%'
+      AND categories.private = 'f'`,
+      values: [req.params.searchText]})
+    pg.any(searchImages)
+    .then((result) => {
+      console.log(result)
+      res.send({
+        status: "success",
+        body: result,
+      });
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+});
+
 export default router;
