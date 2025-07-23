@@ -40,6 +40,20 @@ const addImage = createAsyncThunk('images/addImage', async (obj) => {
   return response;
 });
 
+const searchImages = createAsyncThunk('images/searchImages', async (obj) => {
+  const resp = await fetch(`http://127.0.0.1:5000/api/v1/images/${cat}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: "include",
+    body: obj
+  })
+    .then((resp) => resp.json());
+  console.log(resp)
+  return resp;
+})
+
 const imagesSlice = createSlice({
   name: 'greeting',
   initialState: {
@@ -90,8 +104,23 @@ const imagesSlice = createSlice({
       loading: false,
       error: action.error.message,
     }));
+    builder.addCase(searchImages.pending, (state) => ({
+      ...state,
+      loading: true,
+    }));
+    builder.addCase(searchImages.fulfilled, (state, action) => ({
+      ...state,
+      loading: false,
+      image: action.payload,
+    }));
+    builder.addCase(searchImages.rejected, (state, action) => ({
+      ...state,
+      loading: false,
+      images: [],
+      error: action.error.message,
+    }));
   },
 });
 
 export default imagesSlice.reducer;
-export { addImage, getImages, getImagesPerCategory };
+export { addImage, getImages, getImagesPerCategory, searchImages };
