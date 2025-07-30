@@ -9,9 +9,12 @@ const Search = () => {
     dispatch(searchImages({searchText: e.target.value}))
   }
   return (
-    <main>
-      <h1>Find image by name</h1>
-      <input type="text" onChange={handleSearch}></input>
+    <main className='flex flex-col items-center gap-8'>
+      <h1 className='text-2xl text-white font-bold'>Find image by name</h1>
+      <input 
+        className="p-2 rounded-md border-2 cursor-pointer 
+        border-gray-400 bg-gray-800 text-white w-full"  
+        placeholder="Search..." type="text" onChange={handleSearch}></input>
       {images.length &&
       images.map((image) => (
         <div className="flex flex-col items-center">
