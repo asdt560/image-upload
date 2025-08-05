@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createRegistration } from '../redux/registration/registrationSlice';
 import { createSession } from '../redux/session/sessionSlice';
+import { mainClass, h1Class, formClass, inputClass, errorPClass, submitButtonClass, labelClass } from '../constants';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -48,26 +49,24 @@ const Signup = () => {
   };
 
   return (
-    <main className='flex flex-col items-center gap-8'>
-      <h2 className='text-2xl text-white font-bold'>Signup</h2>
-      <form className="flex gap-4 flex-col items-center" onSubmit={handleSubmit}>
-        <label className="w-full text-white font-bold">
+    <main className={mainClass}>
+      <h2 className={h1Class}>Signup</h2>
+      <form className={formClass} onSubmit={handleSubmit}>
+        <label className={labelClass}>
           Email:
           <input 
-            className={`p-2 rounded-md border-2 cursor-pointer 
-              ${errors.email ? "border-red-400 text-red-500" : "bg-gray-800 text-white"} border-gray-400  w-full`}
+            className={inputClass(errors.email)}
             type="email" value={email} onChange={handleEmailChange} />
         </label>
-        {errors.email && <p className="text-red-500 p-1 text-xs">{errors.email}</p>}
-        <label className="w-full text-white font-bold">
+        {errors.email && <p className={errorPClass}>{errors.email}</p>}
+        <label className={labelClass}>
           Username:
           <input 
-            className={`p-2 rounded-md border-2 cursor-pointer 
-              ${errors.user ? "border-red-400 text-red-500" : "bg-gray-800 text-white"} border-gray-400  w-full`}
+            className={inputClass(errors.user)}
             type="text" value={username} onChange={handleUsernameChange} />
         </label>
-        {errors.user && <p className="text-red-500 p-1 text-xs">{errors.user}</p>}
-        <label className="w-full text-white font-bold">
+        {errors.user && <p className={errorPClass}>{errors.user}</p>}
+        <label className={labelClass}>
           Password:
           <input 
             className="p-2 rounded-md border-2 cursor-pointer 
@@ -76,8 +75,7 @@ const Signup = () => {
         </label>
         <br />
         <button 
-          className="w-full p-2 border-4 border-white border-double 
-          rounded-md text-white font-bold text-lg bg-gray-700" 
+          className={submitButtonClass} 
           type="submit">Sign up</button>
       </form>
     </main>
