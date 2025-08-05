@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { createSession } from '../redux/session/sessionSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkSession } from '../redux/session/sessionSlice';
+import { mainClass, h1Class, formClass, inputClass, labelClass, errorPClass, submitButtonClass } from '../constants';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -52,25 +53,22 @@ const Login = () => {
   };
 
   return (
-    <main className='flex flex-col items-center gap-8'>
-      <h2 className='text-2xl text-white font-bold'>Login</h2>
-      <form className="flex gap-4 flex-col items-center" onSubmit={handleSubmit}>
+    <main className={mainClass}>
+      <h2 className={h1Class}>Login</h2>
+      <form className={formClass} onSubmit={handleSubmit}>
         <div>
-          <label className='text-white font-bold'>Username:</label>
-          <input className={`p-2 rounded-md border-2 cursor-pointer 
-          ${errors.user ? "border-red-400 text-red-500" : "bg-gray-800 text-white"} border-gray-400  w-full`}
+          <label className={labelClass}>Username:</label>
+          <input className={inputClass(errors.user)}
             type="text" value={username} onChange={handleUsernameChange} />
-          {errors.user && <p className="text-red-500 p-1 text-xs">{errors.user}</p>}
+          {errors.user && <p className={errorPClass}>{errors.user}</p>}
         </div>
         <div>
-          <label className='text-white font-bold'>Password:</label>
-          <input className={`p-2 rounded-md border-2 cursor-pointer 
-          ${errors.password ? "border-red-400 text-red-500" : "bg-gray-800 text-white"} border-gray-400  w-full`}
+          <label className={labelClass}>Password:</label>
+          <input className={inputClass(errors.password)}
             type="password" value={password} onChange={handlePasswordChange} />
-          {errors.password && <p className="text-red-500 p-1 text-xs">{errors.password}</p>}
+          {errors.password && <p className={errorPClass}>{errors.password}</p>}
         </div>
-        <button className="w-full p-2 border-4 border-white border-double 
-          rounded-md text-white font-bold text-lg bg-gray-700" 
+        <button className={submitButtonClass}
           type="submit">Login</button>
       </form>
     </main>
