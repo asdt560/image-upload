@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getImages } from '../redux/images/imagesSlice';
+import { mainClass } from '../constants';
+
 const Main = () => {
   const [image, setImage] = useState('');
   const dispatch = useDispatch();
@@ -18,7 +20,7 @@ const Main = () => {
   }, [])
 
   return (
-    <main className='flex flex-col items-center gap-8'>
+    <main className={mainClass}>
       <h1 className='text-2xl text-white font-bold'>See images here</h1>
       <img
           className="max-w-36"

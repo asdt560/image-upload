@@ -1,5 +1,6 @@
 import { searchImages } from "../redux/images/imagesSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { mainClass } from "../constants";
 
 const Search = () => {
   const dispatch = useDispatch()
@@ -9,7 +10,7 @@ const Search = () => {
     dispatch(searchImages({searchText: e.target.value}))
   }
   return (
-    <main className='flex flex-col items-center gap-8'>
+    <main className={mainClass}>
       <h1 className='text-2xl text-white font-bold'>Find image by name</h1>
       <input 
         className="p-2 rounded-md border-2 cursor-pointer 

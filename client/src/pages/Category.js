@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { getCategoryById } from '../redux/categories/categorySlice';
 import { getImagesPerCategory } from "../redux/images/imagesSlice";
 import { useParams } from "react-router-dom";
+import { mainClass } from "../constants";
 
 const Category = () => {
   let { categoryId } = useParams()
@@ -30,7 +31,7 @@ const Category = () => {
   }, [])
 
   return (
-    <main className="flex flex-col items-center gap-8">
+    <main className={mainClass}>
       <h1 className='text-2xl text-white font-bold'>Shows images from {category.categoryname}</h1>
       <div className="flex flex-col items-center">
         {images.map((image) => (
