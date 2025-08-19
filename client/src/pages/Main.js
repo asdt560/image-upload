@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getImages } from '../redux/images/imagesSlice';
-import { mainClass } from '../constants';
+import { mainClass, h1Class } from '../constants';
 
 const Main = () => {
   const [image, setImage] = useState('');
@@ -21,7 +21,7 @@ const Main = () => {
 
   return (
     <main className={mainClass}>
-      <h1 className='text-2xl text-white font-bold'>See images here</h1>
+      <h1 className={h1Class}>See images here</h1>
       <img
           className="max-w-36"
           src={`http://localhost:5000/${image.filepath}` || '#'}

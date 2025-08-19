@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getCategories } from '../redux/categories/categorySlice';
 import { NavLink } from 'react-router-dom';
-import { mainClass } from '../constants';
+import { mainClass, h1Class } from '../constants';
 
 const Categories = () => {
   const [categories, setCategories] = useState([])
@@ -20,7 +20,7 @@ const Categories = () => {
 
   return (
     <main className={mainClass}>
-      <h1 className='text-2xl text-white font-bold'>Look at images per category</h1>
+      <h1 className={h1Class}>Look at images per category</h1>
       <div className='flex gap-4 w-full p-2'>
         {categories.map((category) => (
           <NavLink to={`/category/${category.id}`} key={category.id}
