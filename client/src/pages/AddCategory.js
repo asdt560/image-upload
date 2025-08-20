@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addCategory } from '../redux/categories/categorySlice';
 import { useNavigate } from 'react-router-dom';
 import { checkSession } from '../redux/session/sessionSlice';
-import { mainClass, h1Class } from '../constants';
+import { mainClass, h1Class, formClass } from '../constants';
 
 const AddCategory = () => {
   const [category, setCategory] = useState('')
@@ -44,7 +44,7 @@ const AddCategory = () => {
   return (
     <main className={mainClass}>
       <h1 className={h1Class}>Create Category</h1>
-      <form className="flex gap-4 flex-col items-center" onSubmit={handleSubmit}>
+      <form className={formClass} onSubmit={handleSubmit}>
         <input 
           className="p-2 rounded-md border-2 cursor-pointer 
           border-gray-400 bg-gray-800 text-white w-full" 

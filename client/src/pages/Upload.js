@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { addImage } from "../redux/images/imagesSlice";
 import { useNavigate } from "react-router-dom";
 import { checkSession } from "../redux/session/sessionSlice";
-import { mainClass, h1Class } from "../constants";
+import { mainClass, h1Class, formClass } from "../constants";
 
 const Upload = () => {
   const [categories, setCategories] = useState([])
@@ -45,7 +45,7 @@ const Upload = () => {
   return (
     <main className={mainClass}>
       <h1 className={h1Class}>Upload image to server</h1>
-      <form className="flex gap-4 flex-col items-center" onSubmit={handleSubmit(onSubmit)}>
+      <form className={formClass} onSubmit={handleSubmit(onSubmit)}>
         <select 
           className="p-2 rounded-md border-2 cursor-pointer 
           border-gray-400 bg-gray-800 text-white w-full" 
