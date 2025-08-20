@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { addImage } from "../redux/images/imagesSlice";
 import { useNavigate } from "react-router-dom";
 import { checkSession } from "../redux/session/sessionSlice";
-import { mainClass, h1Class, formClass } from "../constants";
+import { mainClass, h1Class, formClass, labelClass } from "../constants";
 
 const Upload = () => {
   const [categories, setCategories] = useState([])
@@ -59,7 +59,7 @@ const Upload = () => {
             </option>
           ))}
         </select>
-        <label className="w-full text-white font-bold">
+        <label className={labelClass}>
           Image Name:
           <input className="p-2 rounded-md border-2 cursor-pointer 
             border-gray-400 bg-gray-800 text-white w-full"
