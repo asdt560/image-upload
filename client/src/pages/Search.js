@@ -1,6 +1,6 @@
 import { searchImages } from "../redux/images/imagesSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { mainClass, h1Class } from "../constants";
+import { mainClass, h1Class, inputClass } from "../constants";
 
 const Search = () => {
   const dispatch = useDispatch()
@@ -13,8 +13,7 @@ const Search = () => {
     <main className={mainClass}>
       <h1 className={h1Class}>Find image by name</h1>
       <input 
-        className="p-2 rounded-md border-2 cursor-pointer 
-        border-gray-400 bg-gray-800 text-white w-full"  
+        className={inputClass}  
         placeholder="Search..." type="text" onChange={handleSearch}></input>
       {images.length &&
       images.map((image) => (
