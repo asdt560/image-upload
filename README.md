@@ -60,6 +60,7 @@
 - **Sign up and login system.**
 - **Creation of public or private categories and authorization.**
 - **Uploading of images.**
+- **Searching images.**
 
 <!-- LIVE DEMO -->
 
