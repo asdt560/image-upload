@@ -1,6 +1,6 @@
 import { searchImages } from "../redux/images/imagesSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { mainClass, h1Class, inputClass } from "../constants";
+import { mainClass, h1Class, inputClass, pClass } from "../constants";
 
 const Search = () => {
   const dispatch = useDispatch()
@@ -18,8 +18,8 @@ const Search = () => {
       {images.length &&
       images.map((image) => (
         <div className="flex flex-col items-center">
-          <p className='text-1xl text-white font-bold'>{image.img_name}</p>
-          <p className='text-1xl text-white font-bold'>{image.created_at}</p>
+          <p className={pClass}>{image.img_name}</p>
+          <p className={pClass}>{image.created_at}</p>
           <img className="w-full rounded-sm" key={image.id} alt='' src={`http://localhost:5000/${image.filepath}`}/>
         </div>
       ))}
