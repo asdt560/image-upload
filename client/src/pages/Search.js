@@ -7,7 +7,7 @@ import { useEffect } from "react";
 const Search = () => {
   const dispatch = useDispatch()
   const search = useLocation().search;
-  const query = new URLSearchParams(search).get("id")
+  const query = new URLSearchParams(search).get("query")
   const images = useSelector((state) => state.images)
 
   const handleSearch = () => {
@@ -19,15 +19,15 @@ const Search = () => {
   })
   return (
     <main className={mainClass}>
-      <h1 className={h1Class}>Find image by name</h1>
-      {images.length &&
+      <h1 className={h1Class}>Results for: {query}</h1>
+      {images.length ?
       images.map((image) => (
         <div className="flex flex-col items-center">
           <p className={pClass}>{image.img_name}</p>
           <p className={pClass}>{image.created_at}</p>
           <img className="w-full rounded-sm" key={image.id} alt='' src={`http://localhost:5000/${image.filepath}`}/>
         </div>
-      ))}
+      )) : <p>Nothing found</p>}
     </main>
   )
 }
