@@ -13,7 +13,7 @@ import './App.css';
 import Search from "./pages/Search";
 import Navbar from "./components/Navbar";
 import Signup from "./pages/Signup";
-import Login from "./pages/Login"
+import Login from "./pages/Login";
 
 function App() {
   return (

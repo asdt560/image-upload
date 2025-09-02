@@ -1,20 +1,25 @@
 import { searchImages } from "../redux/images/imagesSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { mainClass, h1Class, inputClass, pClass } from "../constants";
+import { mainClass, h1Class, pClass } from "../constants";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const Search = () => {
   const dispatch = useDispatch()
-
+  const search = useLocation().search;
+  const query = new URLSearchParams(search).get("id")
   const images = useSelector((state) => state.images)
-  const handleSearch = (e) => {
-    dispatch(searchImages({searchText: e.target.value}))
+
+  const handleSearch = () => {
+    dispatch(searchImages({searchText: query}))
   }
+
+  useEffect(() => {
+    handleSearch()
+  })
   return (
     <main className={mainClass}>
       <h1 className={h1Class}>Find image by name</h1>
-      <input 
-        className={inputClass}  
-        placeholder="Search..." type="text" onChange={handleSearch}></input>
       {images.length &&
       images.map((image) => (
         <div className="flex flex-col items-center">

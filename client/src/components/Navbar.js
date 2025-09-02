@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { useEffect } from 'react'
+import { useEffect, useNavigate } from 'react'
 import { Fragment } from 'react'
 import { Menu, MenuButton, MenuItems, MenuItem, Transition } from '@headlessui/react'
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ import { checkSession, destroySession } from '../redux/session/sessionSlice';
 
 const Navbar = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const user = useSelector((state) => state.sessionReducer.user)
 
   const logout = async () => {
@@ -16,6 +17,10 @@ const Navbar = () => {
 
   const getUserData = async () => {
     await dispatch(checkSession())
+  }
+
+  const handleKeyUp = (e) => {
+    navigate(`/search?query=${e.target.value}`)
   }
 
   useEffect(() => {
@@ -30,6 +35,9 @@ const Navbar = () => {
         className="py-2 px-8 pointer font-bold text-lg text-white font-sans hover:bg-white hover:text-gray-900"
         to="/categories"
       >Categories</NavLink>
+      <input
+      onKeyUp={handleKeyUp()}>
+      </input>
       {user ?
         <>
           <NavLink
