@@ -1,4 +1,4 @@
-import { searchImages } from "../redux/images/imagesSlice";
+import { searchImages } from "../redux/search/searchSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { mainClass, h1Class, pClass } from "../constants";
 import { useLocation } from "react-router-dom";

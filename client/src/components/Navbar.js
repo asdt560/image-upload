@@ -1,6 +1,6 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { useEffect, useNavigate } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react'
 import { Fragment } from 'react'
 import { Menu, MenuButton, MenuItems, MenuItem, Transition } from '@headlessui/react'
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,7 +20,10 @@ const Navbar = () => {
   }
 
   const handleKeyUp = (e) => {
-    navigate(`/search?query=${e.target.value}`)
+    setTimeout(() => {
+    if (e.target.value)
+      navigate(`/search?query=${e.target.value}`)
+    }, 300)
   }
 
   useEffect(() => {
@@ -36,7 +39,7 @@ const Navbar = () => {
         to="/categories"
       >Categories</NavLink>
       <input
-      onKeyUp={handleKeyUp()}>
+      onKeyUp={(e) => handleKeyUp(e)}>
       </input>
       {user ?
         <>
