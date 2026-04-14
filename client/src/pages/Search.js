@@ -27,7 +27,7 @@ const Search = () => {
           <p className={pClass}>{image.created_at}</p>
           <img className="w-full rounded-sm" key={image.id} alt='' src={`http://localhost:5000/${image.filepath}`}/>
         </div>
-      )) : <p>Nothing found</p>}
+      )) : <p>No Results Found</p>}
     </main>
   )
 }
