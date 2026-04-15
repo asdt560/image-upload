@@ -11,7 +11,7 @@ const Categories = () => {
 
   const getCategoryArray = async () => {
     const categoryArray = await dispatch(getCategories())
-    setCategories(categoryArray.payload.data.categories)
+    setCategories(categoryArray.payload?.data.categories || [])
   }
 
   useEffect(() => {
