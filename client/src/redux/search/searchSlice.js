@@ -28,7 +28,7 @@ const searchSlice = createSlice({
     builder.addCase(searchImages.fulfilled, (state, action) => ({
       ...state,
       loading: false,
-      image: action.payload,
+      image: action.payload.body,
     }));
     builder.addCase(searchImages.rejected, (state, action) => ({
       ...state,

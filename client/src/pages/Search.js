@@ -1,17 +1,19 @@
 import { searchImages } from "../redux/search/searchSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { mainClass, h1Class, pClass } from "../constants";
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Search = () => {
   const dispatch = useDispatch()
   const search = useLocation().search;
   const query = new URLSearchParams(search).get("query")
-  const images = useSelector((state) => state.images) || []
+  const [images, setImages] = useState([])
 
-  const handleSearch = () => {
-    dispatch(searchImages({ searchText: query }))
+  const handleSearch = async () => {
+    const results = await dispatch(searchImages({ searchText: query }))
+    console.log(results.payload?.body)
+    if(results.payload) setImages(results.payload.body)
   }
 
   useEffect(() => {
