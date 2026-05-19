@@ -1,13 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const searchImages = createAsyncThunk('images/searchImages', async (obj) => {
-  const resp = await fetch(`http://127.0.0.1:5000/api/v1/images/search`, {
+  const resp = await fetch(`http://127.0.0.1:5000/api/v1/images?search=${obj}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
     credentials: "include",
-    body: obj
   })
     .then((resp) => resp.json());
   console.log(resp)

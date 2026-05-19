@@ -11,8 +11,8 @@ const Search = () => {
   const [images, setImages] = useState([])
 
   const handleSearch = async () => {
-    const results = await dispatch(searchImages({ searchText: query }))
-    console.log(results.payload?.body)
+    const results = await dispatch(searchImages(query))
+    console.log(results, query, "SEARCH RESULT")
     if(results.payload) setImages(results.payload.body)
   }
 

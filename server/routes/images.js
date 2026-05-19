@@ -27,6 +27,26 @@ router.get("/", async (req, res) => {
         .catch((error) => {
           console.log(error)
         })
+    } else if (params.search) {
+      console.log(params.search, "SEARCH PARAMS")
+      const searchImages = new PQ({
+        text: `SELECT * FROM images 
+      INNER JOIN categories ON images.category = categories.id 
+      WHERE img_name ILIKE '%${params.search}%'
+      AND categories.private = 'f'`,
+        values: [params.search]
+      })
+      pg.any(searchImages)
+        .then((result) => {
+          console.log(result)
+          res.send({
+            status: "success",
+            body: result,
+          });
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   } catch (err) {
     res.status(500).send(err)
@@ -35,18 +55,18 @@ router.get("/", async (req, res) => {
 
 router.get("/:categoryId", (req, res) => {
   console.log(req.params)
-  const imagesPerCategory = new PQ({text: `SELECT * FROM images WHERE category = $1`, values: [req.params.categoryId]}) 
+  const imagesPerCategory = new PQ({ text: `SELECT * FROM images WHERE category = $1`, values: [req.params.categoryId] })
   pg.any(imagesPerCategory)
-  .then((result) => {
-    console.log(result)
-    res.send({
-      status: "success",
-      body: result,
-    });
-  })
-  .catch((error) => {
-    console.log(error)
-  })
+    .then((result) => {
+      console.log(result)
+      res.send({
+        status: "success",
+        body: result,
+      });
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 })
 
 router.post("/", async (req, res) => {
@@ -67,7 +87,8 @@ router.post("/", async (req, res) => {
       console.log(path)
       file.mv(path)
 
-      const insertItem = new PQ({text: `
+      const insertItem = new PQ({
+        text: `
         INSERT INTO images (img_name, category, upload_id, created_at, filepath)
         VALUES (
           $4,
@@ -76,7 +97,8 @@ router.post("/", async (req, res) => {
           current_timestamp, 
           $3
         )
-      `, values: [req.body.category, req.session.user.id, path, req.body.img_name]})
+      `, values: [req.body.category, req.session.user.id, path, req.body.img_name]
+      })
       pg.none(insertItem)
         .then(() => {
           console.log('Entry created successfully');
@@ -98,27 +120,6 @@ router.post("/", async (req, res) => {
     console.log(err)
     res.status(500).send(err);
   }
-});
-
-router.get("/search", (req, res) => {
-  console.log(req.params)
-  const searchImages = new PQ({
-    text: `SELECT * FROM images 
-      INNER JOIN categories ON images.category = categories.id 
-      WHERE document LIKE '%$1%'
-      AND categories.private = 'f'`,
-      values: [req.params.searchText]})
-    pg.any(searchImages)
-    .then((result) => {
-      console.log(result)
-      res.send({
-        status: "success",
-        body: result,
-      });
-    })
-    .catch((error) => {
-      console.log(error)
-    })
 });
 
 export default router;
