@@ -18,7 +18,7 @@ const Search = () => {
 
   useEffect(() => {
     handleSearch()
-  })
+  }, [])
   return (
     <main className={mainClass}>
       <h1 className={h1Class}>Results for: {query}</h1>
