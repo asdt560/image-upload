@@ -29,13 +29,18 @@ router.get("/", async (req, res) => {
         })
     } else if (params.search) {
       console.log(params.search, "SEARCH PARAMS")
+      const searchText = `%${params.search}%`;
       const searchImages = new PQ({
-        text: `SELECT * FROM images 
-      INNER JOIN categories ON images.category = categories.id 
-      WHERE img_name ILIKE '%${params.search}%'
-      AND categories.private = 'f'`,
-        values: [params.search]
-      })
+        text: `
+          SELECT *
+          FROM images
+          INNER JOIN categories
+            ON images.category = categories.id
+          WHERE img_name ILIKE $1
+            AND categories.private = false
+        `,
+        values: [searchText]
+      });
       pg.any(searchImages)
         .then((result) => {
           console.log(result)
