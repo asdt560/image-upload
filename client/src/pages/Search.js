@@ -26,7 +26,7 @@ const Search = () => {
         {
           images.length ?
             images.map((image) => (
-              <div className="flex items-center">
+              <div className="flex items-center border-2 border-white rounded-md">
                 <p className={pClass}>{image.img_name}</p>
                 <p className={pClass}>{image.created_at}</p>
                 <img className="w-full rounded-sm" key={image.id} alt='' src={`http://localhost:5000/${image.filepath}`} />

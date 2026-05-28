@@ -28,7 +28,6 @@ router.get("/", async (req, res) => {
           console.log(error)
         })
     } else if (params.search) {
-      console.log(params.search, "SEARCH PARAMS")
       const searchText = `%${params.search}%`;
       const searchImages = new PQ({
         text: `
