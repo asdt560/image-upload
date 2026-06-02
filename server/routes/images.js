@@ -93,12 +93,13 @@ router.post("/", async (req, res) => {
 
       const insertItem = new PQ({
         text: `
-        INSERT INTO images (img_name, category, upload_id, created_at, filepath)
+        INSERT INTO images (img_name, category, upload_id, created_at, updated_at, filepath)
         VALUES (
           $4,
           $1,
           $2,
-          current_timestamp, 
+          current_timestamp,
+          current_timestamp,
           $3
         )
       `, values: [req.body.category, req.session.user.id, path, req.body.img_name]

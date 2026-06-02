@@ -80,6 +80,7 @@ const createImagesTable = `
     category int references categories(id),
     upload_id int references users(id),
     created_at timestamp,
+    updated_at timestamp,
     filepath text NOT NULL
   );
 `;
