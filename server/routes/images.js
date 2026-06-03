@@ -127,4 +127,34 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.patch("/:imageId", async (req, res) => {
+  let query;
+  if (req.body.img_name) {
+    query = new PQ({
+      text: `
+      UPDATE images
+      SET img_name = $1
+      WHERE id = $2
+      RETURNING *;
+    `,
+      values: [req.body.img_name, req.params.imageId],
+    });
+  }
+
+  pg.any(query)
+    .then((result) => {
+      res.send({
+        status: "success",
+        body: result,
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send({
+        status: "error",
+        error: error.message,
+      });
+    });
+});
+
 export default router;
