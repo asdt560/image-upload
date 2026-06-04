@@ -51,6 +51,21 @@ router.get("/", async (req, res) => {
         .catch((error) => {
           console.log(error)
         })
+    } else if (params.id) {
+      const imageById = `
+      SELECT 1 FROM images 
+      WHERE id = ${params.id}`
+      pg.any(imageById)
+        .then((result) => {
+          console.log(result)
+          res.send({
+            status: "success",
+            body: result,
+          });
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   } catch (err) {
     res.status(500).send(err)
