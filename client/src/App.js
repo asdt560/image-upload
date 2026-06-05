@@ -14,6 +14,7 @@ import Search from "./pages/Search";
 import Navbar from "./components/Navbar";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import Image from "./pages/Image";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/image/:id" element={<Image />} />
         </Routes>
       </Router>
     </div>
