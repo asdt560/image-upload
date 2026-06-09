@@ -40,6 +40,18 @@ const addImage = createAsyncThunk('images/addImage', async (obj) => {
   return response;
 });
 
+const patchImage = createAsyncThunk('images/addImage', async (body, id) => {
+  console.log(body, id)
+  const response = await fetch(`http://127.0.0.1:5000/api/v1/images?imageId=${id}`, {
+    method: 'PATCH',
+    credentials: "include",
+    body: body,
+  })
+    .then((response) => response.json())
+  console.log(response)
+  return response;
+});
+
 const imagesSlice = createSlice({
   name: 'greeting',
   initialState: {
@@ -86,6 +98,19 @@ const imagesSlice = createSlice({
       loading: false,
     }));
     builder.addCase(addImage.rejected, (state, action) => ({
+      ...state,
+      loading: false,
+      error: action.error.message,
+    }));
+    builder.addCase(patchImage.pending, (state) => ({
+      ...state,
+      loading: true,
+    }));
+    builder.addCase(patchImage.fulfilled, (state) => ({
+      ...state,
+      loading: false,
+    }));
+    builder.addCase(patchImage.rejected, (state, action) => ({
       ...state,
       loading: false,
       error: action.error.message,
